@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Visualization for Robert Christgau</title>
+
+    <script src="js/d3.v3.min.js" charset="utf-8"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <!-- <script src="//d3plus.org/js/d3.js"></script> -->
+    <script src="//d3plus.org/js/d3plus.js"></script>
+
+    <script type="text/javascript">
+        // Y axis scroll speed
+        var velocity = 0.5;
+
+        function update() {
+            var pos = $(window).scrollTop();
+            $('.title').each(function () {
+                var $element = $(this);
+                // subtract some from the height b/c of the padding
+                var height = $element.height() - 18;
+                $(this).css('backgroundPosition', '50% ' + Math.round((height - pos) * velocity) + 'px');
+            });
+        };
+
+        $(window).bind('scroll', update);
+    </script>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <div class="title" id="cover">
+        <div class="content">
+            <p class="header firstPageText" style="margin-bottom: -30px;">
+                <br />
+                <b>Project #1</b>
+            </p>
+            <p style="font-size:300%;" class="firstPageText">
+                <br />Visualization for Robert Christgau <br />Music Critics</p>
+            <h3 class="firstPageText" style="padding-bottom:10%;">Yuchu LEI / Data are scratched by Python from
+                <a href="https://www.robertchristgau.com/">Robert Christgau blog</a>
+            </h3>
+        </div>
+    </div>
+
+    <div id="intro" class="flexcontainer">
+        <aside>
+            <p class="subheader text">
+                Intro
+            </p>
+        </aside>
+        <section>
+            <p class="text content bodytext">
+                <br />
+                <br />
+                Robert Thomas Christgau is an American essayist and music journalist.
+                Christgau is known for his terse, letter-graded capsule album reviews,
+                first published in his "Consumer Guide" columns during his tenure at The Village Voice
+                from 1969 to 2006. He has authored three books based on those columns, including
+                Christgau's Record Guide: Rock Albums of the Seventies (1981) and Christgau's
+                Record Guide: The '80s (1990), along with two collections of essays.
+                <br />
+                <br />
+                In this visualization, I visualized over Robert's over 20,000 graded reviews and presented
+                the distribution of the album reviews to the years and to the grade letter.
+                In the reviews, he graded an album among A+, A, A-, B+, ***, **,
+                *, S, N, B, B-, C+, C, C-, D+, D, D-, E+, E, E-, X. A+ is the highest grade meaning
+                "this is a record of sustained beauty, power, insight, groove, and/or googlefritz that has
+                invited and repaid repeated listenings in the daily life of someone with 500 other CDs to get to"
+                and E- is, of course, the opposite. The specific grading critiria can be found
+                <a href="https://www.robertchristgau.com/xg/bk-cg90/grades-90s.php">here</a>.
+                <br />
+                <br />
+                The reviews are divided into two categories: albums and soundtrack. They are graded according to
+                different metrics. What those letters tell us and what music industry trend behind the visualization?
+            </p>
+        </section>
+    </div>
+
+    <div class="chart" >
+        <div align="right">
+            <p id="pieheader" class="text subheader">
+                to <span id="the" style="color:pink">the</span> Grade
+            </p>
+        </div>
+        <div style="position: relative;" align="right">
+            <div id="description" style="position: absolute; right:2%; top:55%;">
+                <p class="bodytext">
+                    This visualization shows <br />album and soundtrack distribution to the review grades.
+                    <br />Click the legend above to switch the category.
+                    <br />Zoom upon the graph to rotate it to get a better view.
+                </p>
+            </div>
+
+            <div class="content" id="graph" align="center" style="padding-bottom: 0;margin-top: -5%;">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="chart" style="height:auto;">
+        <div>
+            <p id="timegraph" class="text subheader">
+                to <span style="color:lightgrey">the</span> Year
+            </p>
+        </div>
+        <div class="content" id="matrixgraph" align="center" style="margin-top: 3%"></div>
+    </div>
+
+    <div class="chart">
+        <div>
+            <p id="artisttitle" class="text subheader">
+                to <span style="color:lightgrey">the</span> Artist
+            </p>
+        </div>
+        <div class="content" id="artistgraph" align="center" style="margin-top: 3%"></div>
+    </div>
+
+    <script src="js/d3.legend.js"></script>
+    <script src="js/pie.js"></script>
+    <script src="js/trulia.js"></script>
+    <script type="text/javascript">
+        var firsttimegrade = 1;
+        var firsttimeyear = 1;
+        var firsttimea = 1;
+
+        var scrollFunc = function (e) {
+            e = e || window.event;
+            var y = document.documentElement.scrollTop;
+            var p = document.getElementById("pieheader").offsetTop;
+            var i = document.getElementById("intro").offsetTop;
+            var t = document.getElementById("timegraph").offsetTop;
+            var a = document.getElementById("artisttitle").offsetTop;
+
+            var threshold = 700;
+
+            if (e.detail > 0) { //Firefox
+                console.log("detail")
+                if (i - y > 0 && i - y < threshold) {
+                    document.getElementById('intro').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+
+                if (p - y > 0 && p - y < threshold) {
+                    document.getElementById('pieheader').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    if (firsttimegrade == 1) {
+                        readData(main);
+
+                        firsttimegrade = 0;
+                    }
+                }
+
+                if (t - y > 0 && t - y < threshold) {
+                    document.getElementById('timegraph').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    if (firsttimeyear == 1) {
+                        createGrid(year_rank, 0);
+                        createGrid(year_rank_st, 1);
+                        firsttimeyear = 0;
+                    }
+                }
+                if (a - y > 0 && a - y < threshold) {
+                    document.getElementById('artisttitle').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    if (firsttimea == 1) {
+                        // create
+                        firsttimea = 0;
+                    }
+                }
+            }
+            if (e.detail < 0) { //Firefox
+                if (y < threshold) {
+                    document.getElementById('cover').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+                if (y - i > 0 && y - i < threshold) {
+                    document.getElementById('intro').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+
+                if (y - p > 0 && y - p < threshold) {
+                    document.getElementById('pieheader').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+
+                if (y - t > 0 && y - t < threshold) {
+                    document.getElementById('timegraph').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+                if (y - a > 0 && y - a < threshold) {
+                    document.getElementById('artisttitle').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        }
+
+        function debounce(func, wait, immediate) {
+            var timeout;
+            return function () {
+                var context = this,
+                    args = arguments;
+                var later = function () {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                var callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        };
+
+        var debounceFn = debounce(scrollFunc, 250);
+
+        if (document.addEventListener) { //firefox  
+            document.addEventListener('DOMMouseScroll', debounceFn, false);
+        }
+        // window.onmousewheel = document.onmousewheel = scrollFunc;
+    </script>
+</body>
+
+</html>
