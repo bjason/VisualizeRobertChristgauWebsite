@@ -2,7 +2,7 @@
 // Main Class File:   main.js
 // File:              trulia.js
 //
-// Author:           Erin Hamilton
+// Author:           Erin Hamilton, edited by Yuchu Lei
 //
 // Description:     Creates a calendar view matrix, with the 50 US States
 //                  on the y-axis and years 1963 through 2013 on the
@@ -126,6 +126,9 @@ function createGrid(Index, _isAlbum) {
             hoverOutCell(d);
         })
         .on("mousemove", moveTruliaLabel)
+        .on("click", (d) => {
+            window.location.assign("list.html?rank=" + d.rank + "&year=" + d.time);
+        })
         .style("fill", function (d) {
             return d.color;
         })
@@ -145,22 +148,38 @@ function createGrid(Index, _isAlbum) {
             return rankList[i];
         });
 
-    var x = d3.time.scale()
-        .domain([new Date(years[0]), d3.time.year.offset(new Date(years[years.length - 1]), 1)])
-        .rangeRound([0, width - margin.left - margin.right]);
+    grid.selectAll(".xAxis")
+        .data(years)
+        .enter().append("text")
+        .attr("x", function (d, i) {
+            return (i * 16.7) + margin.left;
+        })
+        .attr("y", 7)
+        .attr("class", "text")
+        .attr("dy", ".10em")
+        .attr("text-anchor", "start")
+        .attr("cursor", "default")
+        .style("font-size", "7pt")
+        .text(function (d, i) {
+            return years[i].slice(2);
+        });
 
-    var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient('top')
-        .ticks(d3.time.years, 1)
-        .tickFormat(d3.time.format('%y'))
-        .tickSize(0);
+    // var x = d3.time.scale()
+    //     .domain([new Date(years[0]), d3.time.year.offset(new Date(years[years.length - 1]), 1)])
+    //     .rangeRound([0, width - margin.left - margin.right]);
 
-    // Add the x-axis.
-    grid.append("grid:g")
-        .attr("class", "xMatrix text")
-        .attr("transform", "translate(45," + 17 + ")")
-        .call(xAxis);
+    // var xAxis = d3.svg.axis()
+    //     .scale(x)
+    //     .orient('top')
+    //     .ticks(d3.time.years, 1)
+    //     .tickFormat(d3.time.format('%y'))
+    //     .tickSize(0);
+
+    // // Add the x-axis.
+    // grid.append("grid:g")
+    //     .attr("class", "xMatrix text")
+    //     .attr("transform", "translate(45,17)")
+    //     .call(xAxis);
 }
 
 function getColor(d) {
@@ -209,12 +228,10 @@ function gridData(gridWidth, gridHeight, index, year) {
             });
             xpos += stepX;
             count += 1;
-            console.log("pushing")
         }
         xpos = startX;
         ypos += stepY;
     }
-    console.log("load")
     return data;
 }
 
@@ -224,7 +241,8 @@ function gridData(gridWidth, gridHeight, index, year) {
  * @handle: the currently selected cell
  */
 function hoverOnCell(handle, category) {
-    var descrip = "There are " + handle.value + " " + category + "(s) in the year of " + handle.time + " are ranked as " + handle.rank;
+    var descrip = "There are " + handle.value + " " + category + "(s) in the year of " + handle.time + " are ranked as " + handle.rank +
+        ".<br/>Click the grid to see all of them.";
 
     var labelText = "<h1><i>" + handle.rank + ": " + handle.value + "</i></h1><b><span style=float:right>" +
         handle.time + "</span></b><h3></h3><p>" + descrip + "</p>";

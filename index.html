@@ -8,7 +8,7 @@
     <script src="js/d3.v3.min.js" charset="utf-8"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
     <!-- <script src="//d3plus.org/js/d3.js"></script> -->
-    <script src="//d3plus.org/js/d3plus.js"></script>
+    <!-- <script src="//d3plus.org/js/d3plus.js"></script> -->
 
     <script type="text/javascript">
         // Y axis scroll speed
@@ -31,6 +31,13 @@
 
 <body>
     <div class="title" id="cover">
+        <div class="text" id="index" style="color: white; ">
+            <ul align="right" style="list-style-type: none;
+            overflow: hidden;padding-right: 10%;float: right;">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="list.html">List</a></li>
+            </ul>
+        </div>
         <div class="content">
             <p class="header firstPageText" style="margin-bottom: -30px;">
                 <br />
@@ -78,7 +85,7 @@
         </section>
     </div>
 
-    <div class="chart" >
+    <div class="chart">
         <div align="right">
             <p id="pieheader" class="text subheader">
                 to <span id="the" style="color:pink">the</span> Grade
@@ -93,13 +100,12 @@
                 </p>
             </div>
 
-            <div class="content" id="graph" align="center" style="padding-bottom: 0;margin-top: -5%;">
+            <div class="content" id="graph" align="center" style="padding-bottom: 0;margin-top: -3%;">
             </div>
         </div>
     </div>
 
-
-    <div class="chart" style="height:auto;">
+    <div class="chart" style="height:auto;margin-bottom: -5%;min-height: 100%;">
         <div>
             <p id="timegraph" class="text subheader">
                 to <span style="color:lightgrey">the</span> Year
@@ -114,12 +120,16 @@
                 to <span style="color:lightgrey">the</span> Artist
             </p>
         </div>
-        <div class="content" id="artistgraph" align="center" style="margin-top: 3%"></div>
+        <div id="artistgraph" align="center" style="box-sizing: inherit;">
+        </div>
     </div>
 
-    <script src="js/d3.legend.js"></script>
+    <script src="js/d3.legend_pie.js"></script>
     <script src="js/pie.js"></script>
     <script src="js/trulia.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script src="js/d3-legend.min.js"></script>
+    <script src="js/bubble.js"></script>
     <script type="text/javascript">
         var firsttimegrade = 1;
         var firsttimeyear = 1;
@@ -136,7 +146,6 @@
             var threshold = 700;
 
             if (e.detail > 0) { //Firefox
-                console.log("detail")
                 if (i - y > 0 && i - y < threshold) {
                     document.getElementById('intro').scrollIntoView({
                         behavior: 'smooth'
@@ -149,7 +158,6 @@
                     });
                     if (firsttimegrade == 1) {
                         readData(main);
-
                         firsttimegrade = 0;
                     }
                 }
@@ -164,12 +172,13 @@
                         firsttimeyear = 0;
                     }
                 }
-                if (a - y > 0 && a - y < threshold) {
+                if (a - y > 0 && a - y < threshold - 150) {
                     document.getElementById('artisttitle').scrollIntoView({
                         behavior: 'smooth'
                     });
                     if (firsttimea == 1) {
                         // create
+                        createBubble(rank_artist);
                         firsttimea = 0;
                     }
                 }
@@ -192,7 +201,7 @@
                     });
                 }
 
-                if (y - t > 0 && y - t < threshold) {
+                if (y - t > 0 && y - t < threshold + 100) {
                     document.getElementById('timegraph').scrollIntoView({
                         behavior: 'smooth'
                     });
@@ -221,7 +230,7 @@
             };
         };
 
-        var debounceFn = debounce(scrollFunc, 250);
+        var debounceFn = debounce(scrollFunc, 100);
 
         if (document.addEventListener) { //firefox  
             document.addEventListener('DOMMouseScroll', debounceFn, false);
