@@ -1,5 +1,6 @@
 # visualization_Robert_Christgau
 
+To visit: https://bjason.github.io/VisualizeRobertChristgauWebsite/index.html
 This is the source code for visualize for robert christgau webpage. All data are gained through [rc.py](https://github.com/bjason/VisualizeRobertChristgauWebsite/blob/master/rc.py) from the blog of Mr.Robert, https://www.robertchristgau.com/
 
 ### Introduction
