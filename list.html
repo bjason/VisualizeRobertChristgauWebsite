@@ -2,44 +2,53 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Visualization for Robert Christgau</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/list.css">
-    <link rel="stylesheet" type="text/css" href="css/select.css">
+	<meta charset="UTF-8">
+	<title>Custom select</title>
 
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.0.1/spin.min.js'></script> -->
-    <script src="js/list.js"></script>
-    <script src="js/select.js"></script>
-
-    <!-- <script src="js/pie.js"></script> -->
+	<link rel="stylesheet" href="css/select.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="css/list.css">
 </head>
 
 <body>
-    <div class="topnav text">
-        <div class="topnav-right">
-            <a href="index.html">Home</a>
-            <a class="active" href="list.html">List</a>
-        </div>
-    </div>
+	<div class="topnav text">
+		<div class="topnav-right">
+			<a href="index.html">Home</a>
+			<a class="active" href="list.html">List</a>
+		</div>
+	</div>
+	<div style="width:100%;" align="right">
+		<div align="left" class="wrapper">
+			<div class="typo text">Show the albums ranked as
+				<div class="list"><span class="placeholder">All</span>
+					<ul class="list__ul text">
+					</ul>
+				</div>
+			</div>
+			<div class="typo text">released in the year of 
+				<div class="list"><span class="placeholder">All</span>
+					<ul class="list__ul_year text">
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <div class="wrapper typo sidebar text">Show the rank of
-        <div class="list"><span id="placeholder">select</span>
-            <ul id="list__ul">
-            </ul>
-        </div>
-    </div>
 
-    <div id="albumlist_div">
-        <ul id="albumlist">
 
-        </ul>
-    </div>
+	<div id="albumlist_div">
+		<ul id="albumlist">
 
-    <p id="error_info" class="text" style="font-size:120%;"></p>
+		</ul>
+	</div>
+
+	<div style="text-align: center;">
+		<p id="error_info" class="text" style="font-size:150%;"></p>
+	</div>
+
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<!-- <script src="js/index.js"></script> -->
+	<script src="js/list.js"></script>
 </body>
 
 </html>

@@ -17,10 +17,12 @@ var years = ['1967', '1968', '1969', '1970',
 
 var spinner;
 var currIndex;
-var mostLoadNum = 100;
+var mostLoadNum = 30;
 
 function readMusicData(data, error) {
     if (error) console.log(error);
+
+    var id = 0
 
     data.forEach(d => {
         var rank = d.Rank;
@@ -30,33 +32,82 @@ function readMusicData(data, error) {
 
         musicdata.push({
             // isSoundTrack: d.isSoundTrack,
+            id: id,
             rank: rank,
             album: album,
             artist: artist,
             year: year
         })
+        id += 1
     })
 }
 
+function main() { // loader settings
+    currIndex = 0;
+
+    var thisURL = document.URL;
+    var argUrl = thisURL.split('?');
+
+    if (argUrl.length > 1) {
+        var arg = argUrl[1].split("&");
+        d3.csv("rc.csv").then(readMusicData).then(() => filterData([arg[0].split("=")[1]], [arg[1].split("=")[1]]));
+    } else
+        // trigger loader
+        // var target = document.getElementById('spinner_sec');
+        // spinner = new Spinner(opts).spin(target);
+
+        d3.csv("rc.csv").then(readMusicData).then(() => filterData(rankList, years));
+}
+
+main();
+
 function filterData(rank, year) {
-    d3.select('#list__ul').selectAll('text')
+    d3.select('.list__ul').selectAll('.text')
         .data(rankList)
         .enter().append('li')
         .attr('class', 'text')
-        .style('font-size', '18px')
+        .append('a')
+        .attr('href', '')
+        .style('color', '#585858')
         .text(d => d)
         .on('click', function (d, i) {
-            filterData([d], years)
+            var y;
+            if (year.length == 1) y = year
+            else y = "all"
+
+            if (d == rank) d = "all"
+            window.location.assign("list.html?rank=" + d + "&year=" + y);
         })
+        .filter(d => d == rank)
+        .attr('id', 'curr')
+
+    d3.select('.list__ul_year').selectAll('.text')
+        .data(years)
+        .enter().append('li')
+        .attr('class', 'text')
+        .append('a')
+        .attr('href', '')
+        .style('color', '#585858')
+        .text(d => d)
+        .on('click', function (d, i) {
+            var r;
+            if (rank.length == 1) r = rank
+            else r = "all"
+
+            if (d == year) d = "all"
+            window.location.assign("list.html?rank=" + r + "&year=" + d);
+        })
+        .filter(d => d == year)
+        .attr('id', 'curr')
 
     var list = d3.select('#albumlist')
 
-    console.log(year);
-    console.log(rank);
+    if (year == "all") year = years
+    if (rank == "all") rank = rankList
 
-    var data = musicdata.filter(d => rank.includes(d.rank)).filter(d => year.includes(d.year)).slice(0, 100);
+    var data = musicdata.filter(d => rank.includes(d.rank)).filter(d => year.includes(d.year)).slice(0, mostLoadNum);
     if (data.length == 0) {
-        d3.select('#error_info').text('No album exists in ' + year + ' ranked as ' + rank)
+        d3.select('#error_info').text('Oops! No album exists in ' + year + ' ranked as ' + rank)
     }
     currIndex += mostLoadNum;
 
@@ -86,12 +137,21 @@ function filterData(rank, year) {
         .attr('x', 20)
         .attr('y', 63)
         .text(d => d.rank)
+
+    var imgd = []
     listdiv.append('img')
         .attr('src', 'css/album.jpg')
         .attr('height', 120)
         .attr('width', 120)
         .style('margin-left', '5%')
+        .style('margin-right', '3%')
         .style('float', 'left')
+        .attr('id', d => 'img' + d.id)
+        .attr('alt', d => {
+            imgd.push(d)
+            return 'cover image'
+        })
+
     var ld = listdiv.append('div')
         .style('margin-left', '5%')
         .attr('class', 'text')
@@ -102,27 +162,23 @@ function filterData(rank, year) {
         .text(d => d.artist)
         .style('font-size', '120%')
 
-
-    // setTimeout(() => {
-    //     spinner.stop();
-    // }, 2000);
+    imgd.forEach(d => {
+        var id = d.id
+        $.get(
+            "http://ws.audioscrobbler.com/2.0/", {
+                method: 'album.getinfo',
+                api_key: 'e0981426c1bea500a1c4b35b14164a2f',
+                artist: d.artist,
+                album: d.album,
+                format: 'json'
+            },
+            function (data) {
+                console.log(data);
+                if (!("error" in data)) {
+                    res = data["album"]["image"][2]["#text"];
+                    d3.select('#img' + id).attr('src', res)
+                } else d3.select('#img' + id).attr('src', 'css/album.jpg')
+            }
+        )
+    })
 }
-
-function main() { // loader settings
-    currIndex = 0;
-
-    var thisURL = document.URL;
-    var argUrl = thisURL.split('?');
-
-    if (argUrl.length > 1) {
-        var arg = argUrl[1].split("&");
-        d3.csv("rc.csv").then(readMusicData).then(() => filterData([arg[0].split("=")[1]], [arg[1].split("=")[1]]));
-    } else
-        // trigger loader
-        // var target = document.getElementById('spinner_sec');
-        // spinner = new Spinner(opts).spin(target);
-
-        d3.csv("rc.csv").then(readMusicData).then(() => filterData(rankList, years));
-}
-
-main();

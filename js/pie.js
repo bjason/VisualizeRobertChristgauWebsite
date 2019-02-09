@@ -198,7 +198,8 @@ var years = ['1967', '1968', '1969', '1970',
     '1982', '1983', '1984', '1985', '1986', '1987', '1988', '1989', '1990', '1991', '1992',
     '1993', '1994', '1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003',
     '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014',
-    '2015', '2016', '2017', '2018'];
+    '2015', '2016', '2017', '2018'
+];
 
 var rank_number = rankList.length
 
@@ -486,8 +487,6 @@ function maxprobabilityToRadius(d) {
 function drawComplexArcs(parent, plotData, colorFunc, arcTextFunc, complexArcOptions, arcTextT) {
     // Draw the main wind rose arcs
 
-    console.log("arcs_f");
-
     parent.append("svg:g")
         .attr("class", "arcs_f")
         .selectAll("path")
@@ -501,8 +500,6 @@ function drawComplexArcs(parent, plotData, colorFunc, arcTextFunc, complexArcOpt
             return d.n + "  " + (100 * d.p).toFixed(1) + "% "
         });
 
-    console.log("arcs");
-
     parent.append("svg:g")
         .attr("class", "arcs")
         .selectAll("path")
@@ -511,6 +508,9 @@ function drawComplexArcs(parent, plotData, colorFunc, arcTextFunc, complexArcOpt
         .attr("transform", "translate(" + visWidth + "," + visWidth + ")")
         .attr("d", arc(zerowindroseArcOptions))
         .style("fill", colorFunc)
+        .on('click', (d) => {
+            window.location.assign("list.html?rank=" + d.n + "&year=all");
+        })
         .transition()
         .attr("d", arc(complexArcOptions))
         .style("fill", colorFunc)
@@ -521,8 +521,6 @@ function drawComplexArcs(parent, plotData, colorFunc, arcTextFunc, complexArcOpt
         .selectAll("text")
         .data([plotData.rankdata.p])
         .enter();
-
-    console.log("text");
 
     cw.append("svg:text")
         .attr("transform", "translate(" + visWidth + "," + (visWidth + 5) + ")")
@@ -564,8 +562,6 @@ function main() {
     var rollup = rollupForRanks(0);
 
     // Labels: degree markers
-    console.log("labels");
-    
     vis.append("svg:g")
         .attr("class", "labels")
         .selectAll("text")
@@ -584,7 +580,7 @@ function main() {
 
     // Circles representing chart ticks
     console.log("axes");
-    
+
     vis.append("svg:g")
         .attr("class", "axes")
         .attr("transform", "translate(" + [0, 0] + ")")
@@ -599,7 +595,7 @@ function main() {
 
     // Text representing chart tickmarks
     console.log("tickmarks");
-    
+
     vis.append("svg:g").attr("class", "tickmarks")
         .selectAll("text")
         .data(tickmarks)
