@@ -68,7 +68,6 @@ function filterData(rank, year) {
         .attr('class', 'text')
         .append('a')
         .attr('href', '')
-        .style('color', '#585858')
         .text(d => d)
         .on('click', function (d, i) {
             var y;
@@ -87,7 +86,6 @@ function filterData(rank, year) {
         .attr('class', 'text')
         .append('a')
         .attr('href', '')
-        .style('color', '#585858')
         .text(d => d)
         .on('click', function (d, i) {
             var r;
