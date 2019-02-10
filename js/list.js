@@ -86,9 +86,6 @@ function filterData(rank, year) {
         .data(rankList)
         .enter().append('li')
         .attr('class', 'text')
-        .append('a')
-        .attr('href', '')
-        .text(d => d)
         .on('click', function (d, i) {
             var y;
             if (year.length == 1) y = year
@@ -98,6 +95,8 @@ function filterData(rank, year) {
             window.location.replace("list.html?rank=" + d + "&year=" + y)
             // self.location.href = "list.html?rank=" + d + "&year=" + y;
         })
+        .append('a')
+        .text(d => d)
         .filter(d => d == rank)
         .attr('id', 'curr')
 
@@ -105,9 +104,6 @@ function filterData(rank, year) {
         .data(years)
         .enter().append('li')
         .attr('class', 'text')
-        .append('a')
-        .attr('href', '')
-        .text(d => d)
         .on('click', function (d, i) {
             var r;
             if (rank.length == 1) r = rank
@@ -118,6 +114,9 @@ function filterData(rank, year) {
             window.location.replace("list.html?rank=" + r + "&year=" + d, '_self')
             // self.location.href = "list.html?rank=" + r + "&year=" + d;
         })
+        .append('a')
+        .attr('href', '')
+        .text(d => d)
         .filter(d => d == year)
         .attr('id', 'curr')
 
