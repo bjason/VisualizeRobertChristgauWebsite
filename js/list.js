@@ -77,7 +77,7 @@ function filterData(rank, year) {
             if (rank.length == 1) r = rank
             else r = "all"
 
-            window.location.href = "list.html?rank=all&year=" + y;
+            window.location.href = "list.html?rank=" + r + "&year=all";
         })
 
     d3.select('.list__ul').selectAll('.text')
