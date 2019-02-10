@@ -69,7 +69,7 @@ function filterData(rank, year) {
             else y = "all"
 
             // self.location.href = "list.html?rank=all&year=" + y;
-            window.open("list.html?rank=all&year=" + y)
+            window.location.replace("list.html?rank=all&year=" + y)
         })
 
     d3.select("#year_all")
@@ -79,7 +79,7 @@ function filterData(rank, year) {
             else r = "all"
 
             // self.location.href = "list.html?rank=" + r + "&year=all";
-            window.open("list.html?rank=" + r + "&year=all")
+            window.location.replace("list.html?rank=" + r + "&year=all")
         })
 
     d3.select('.list__ul').selectAll('.text')
@@ -95,7 +95,7 @@ function filterData(rank, year) {
             else y = "all"
 
             if (d == rank) d = "all"
-            window.open("list.html?rank=" + d + "&year=" + y)
+            window.location.replace("list.html?rank=" + d + "&year=" + y)
             // self.location.href = "list.html?rank=" + d + "&year=" + y;
         })
         .filter(d => d == rank)
@@ -115,7 +115,7 @@ function filterData(rank, year) {
 
             if (d == year) d = "all"
 
-            window.open("list.html?rank=" + r + "&year=" + d, '_self')
+            window.location.replace("list.html?rank=" + r + "&year=" + d, '_self')
             // self.location.href = "list.html?rank=" + r + "&year=" + d;
         })
         .filter(d => d == year)
