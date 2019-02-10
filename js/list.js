@@ -105,7 +105,7 @@ function filterData(rank, year) {
 
     var data = musicdata.filter(d => rank.includes(d.rank)).filter(d => year.includes(d.year)).slice(0, mostLoadNum);
     if (data.length == 0) {
-        d3.select('#error_info').text('Oops! No album exists in ' + year + ' ranked as ' + rank)
+        d3.select('#error_info').text('Oops! No album released in ' + year + ' ranked as ' + rank)
     }
     currIndex += mostLoadNum;
 

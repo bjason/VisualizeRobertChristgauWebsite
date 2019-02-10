@@ -145,71 +145,139 @@
 
             var threshold = 700;
 
-            if (e.detail > 0) { //Firefox
-                if (i - y > 0 && i - y < threshold) {
-                    document.getElementById('intro').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
+            if (!e.wheelDelta) {
+                if (e.detail > 0) { //Firefox
+                    if (i - y > 0 && i - y < threshold) {
+                        document.getElementById('intro').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
 
-                if (p - y > 0 && p - y < threshold) {
-                    document.getElementById('pieheader').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                    if (firsttimegrade == 1) {
-                        readData(main);
-                        firsttimegrade = 0;
+                    if (p - y > 0 && p - y < threshold) {
+                        document.getElementById('pieheader').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        if (firsttimegrade == 1) {
+                            readData(main);
+                            firsttimegrade = 0;
+                        }
+                    }
+
+                    if (t - y > 0 && t - y < threshold) {
+                        document.getElementById('timegraph').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        if (firsttimeyear == 1) {
+                            createGrid(year_rank, 0);
+                            createGrid(year_rank_st, 1);
+                            firsttimeyear = 0;
+                        }
+                    }
+                    if (a - y > 0 && a - y < threshold - 150) {
+                        document.getElementById('artisttitle').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        if (firsttimea == 1) {
+                            // create
+                            createBubble(rank_artist);
+                            firsttimea = 0;
+                        }
                     }
                 }
+                if (e.detail < 0) { //Firefox
+                    if (y < threshold) {
+                        document.getElementById('cover').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                    if (y - i > 0 && y - i < threshold) {
+                        document.getElementById('intro').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
 
-                if (t - y > 0 && t - y < threshold) {
-                    document.getElementById('timegraph').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                    if (firsttimeyear == 1) {
-                        createGrid(year_rank, 0);
-                        createGrid(year_rank_st, 1);
-                        firsttimeyear = 0;
+                    if (y - p > 0 && y - p < threshold) {
+                        document.getElementById('pieheader').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+
+                    if (y - t > 0 && y - t < threshold + 100) {
+                        document.getElementById('timegraph').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                    if (y - a > 0 && y - a < threshold)
+                        document.getElementById('artisttitle').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                }
+            } else { // not Firefox
+                if (e.wheelDelta < 0) {
+                    if (i - y > 0 && i - y < threshold) {
+                        document.getElementById('intro').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+
+                    if (p - y > 0 && p - y < threshold) {
+                        document.getElementById('pieheader').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        if (firsttimegrade == 1) {
+                            readData(main);
+                            firsttimegrade = 0;
+                        }
+                    }
+
+                    if (t - y > 0 && t - y < threshold) {
+                        document.getElementById('timegraph').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        if (firsttimeyear == 1) {
+                            createGrid(year_rank, 0);
+                            createGrid(year_rank_st, 1);
+                            firsttimeyear = 0;
+                        }
+                    }
+                    if (a - y > 0 && a - y < threshold - 150) {
+                        document.getElementById('artisttitle').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        if (firsttimea == 1) {
+                            // create
+                            createBubble(rank_artist);
+                            firsttimea = 0;
+                        }
                     }
                 }
-                if (a - y > 0 && a - y < threshold - 150) {
-                    document.getElementById('artisttitle').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                    if (firsttimea == 1) {
-                        // create
-                        createBubble(rank_artist);
-                        firsttimea = 0;
+                if (e.wheelDelta > 0) {
+                    if (y < threshold) {
+                        document.getElementById('cover').scrollIntoView({
+                            behavior: 'smooth'
+                        });
                     }
-                }
-            }
-            if (e.detail < 0) { //Firefox
-                if (y < threshold) {
-                    document.getElementById('cover').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-                if (y - i > 0 && y - i < threshold) {
-                    document.getElementById('intro').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
+                    if (y - i > 0 && y - i < threshold) {
+                        document.getElementById('intro').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
 
-                if (y - p > 0 && y - p < threshold) {
-                    document.getElementById('pieheader').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
+                    if (y - p > 0 && y - p < threshold) {
+                        document.getElementById('pieheader').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
 
-                if (y - t > 0 && y - t < threshold + 100) {
-                    document.getElementById('timegraph').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-                if (y - a > 0 && y - a < threshold) {
-                    document.getElementById('artisttitle').scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                    if (y - t > 0 && y - t < threshold + 100) {
+                        document.getElementById('timegraph').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                    if (y - a > 0 && y - a < threshold)
+                        document.getElementById('artisttitle').scrollIntoView({
+                            behavior: 'smooth'
+                        });
                 }
             }
         }
@@ -227,15 +295,15 @@
                 clearTimeout(timeout);
                 timeout = setTimeout(later, wait);
                 if (callNow) func.apply(context, args);
-            };
-        };
+            }
+        }
 
         var debounceFn = debounce(scrollFunc, 100);
 
-        if (document.addEventListener) { //firefox  
-            document.addEventListener('DOMMouseScroll', debounceFn, false);
+        if (document.addEventListener) {
+            document.addEventListener("mousewheel", debounceFn, false);
+            document.addEventListener('DOMMouseScroll', debounceFn, false); //firefox  
         }
-        // window.onmousewheel = document.onmousewheel = scrollFunc;
     </script>
 </body>
 
