@@ -115,7 +115,6 @@ function filterData(rank, year) {
             // self.location.href = "list.html?rank=" + r + "&year=" + d;
         })
         .append('a')
-        .attr('href', '')
         .text(d => d)
         .filter(d => d == year)
         .attr('id', 'curr')

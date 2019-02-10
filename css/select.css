@@ -64,7 +64,6 @@ div.typo {
 .list a {
 	-webkit-transition: all .4s;
 	transition: all .4s;
-	color: #7b00ff;
 	position: relative;
 }
 
