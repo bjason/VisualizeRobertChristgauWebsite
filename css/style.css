@@ -3,6 +3,10 @@
     opacity: 0.8;
 }
 
+a {
+    color: cadetblue;
+}
+
 html,
 body {
     height: 100%;
