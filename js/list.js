@@ -163,7 +163,7 @@ function filterData(rank, year) {
     imgd.forEach(d => {
         var id = d.id
         $.get(
-            "http://ws.audioscrobbler.com/2.0/", {
+            "//ws.audioscrobbler.com/2.0/", {
                 method: 'album.getinfo',
                 api_key: 'e0981426c1bea500a1c4b35b14164a2f',
                 artist: d.artist,
