@@ -68,7 +68,7 @@ function filterData(rank, year) {
             if (year.length == 1) y = year
             else y = "all"
 
-            window.location.href = "list.html?rank=all&year=" + y;
+            self.location.href = "list.html?rank=all&year=" + y;
         })
 
     d3.select("#year_all")
@@ -77,7 +77,7 @@ function filterData(rank, year) {
             if (rank.length == 1) r = rank
             else r = "all"
 
-            window.location.href = "list.html?rank=" + r + "&year=all";
+            self.location.href = "list.html?rank=" + r + "&year=all";
         })
 
     d3.select('.list__ul').selectAll('.text')
@@ -93,7 +93,7 @@ function filterData(rank, year) {
             else y = "all"
 
             if (d == rank) d = "all"
-            window.location.href = "list.html?rank=" + d + "&year=" + y;
+            self.location.href = "list.html?rank=" + d + "&year=" + y;
         })
         .filter(d => d == rank)
         .attr('id', 'curr')
@@ -111,7 +111,7 @@ function filterData(rank, year) {
             else r = "all"
 
             if (d == year) d = "all"
-            window.location.href = "list.html?rank=" + r + "&year=" + d;
+            self.location.href = "list.html?rank=" + r + "&year=" + d;
         })
         .filter(d => d == year)
         .attr('id', 'curr')
@@ -181,7 +181,7 @@ function filterData(rank, year) {
     imgd.forEach(d => {
         var id = d.id
         $.get(
-            "http://ws.audioscrobbler.com/2.0/", {
+            "//ws.audioscrobbler.com/2.0/", {
                 method: 'album.getinfo',
                 api_key: 'e0981426c1bea500a1c4b35b14164a2f',
                 artist: d.artist,
