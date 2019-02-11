@@ -195,7 +195,9 @@ function filterData(rank, year) {
                 console.log(data);
                 if (!("error" in data)) {
                     res = data["album"]["image"][2]["#text"];
-                    d3.select('#img' + id).attr('src', res)
+                    if (res.length != 0)
+                        d3.select('#img' + id).attr('src', res)
+                    else d3.select('#img' + id).attr('src', 'css/album.jpg')
                 } else d3.select('#img' + id).attr('src', 'css/album.jpg')
             }
         )
