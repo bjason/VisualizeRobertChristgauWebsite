@@ -1,4 +1,4 @@
-# visualization_Robert_Christgau
+# Visualization for Robert Christgau
 
 To visit: https://bjason.github.io/VisualizeRobertChristgauWebsite/index.html
 
