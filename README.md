@@ -16,5 +16,8 @@ There is 3 graph and 1 list.
 3.	Artist view is the view where grades are shown according to the artists. When an artist has more albums graded as a certain grade, the bubble becomes bigger. Vice versa. To interact, click on one bubble to read detail.
 ![img](https://i.imgur.com/2k6asO6.png)
 
+The list shows all the albums in given parameters. You can assign specific year or/and rank in the right of the page.
+![img](https://i.imgur.com/WeuTtLQ.png)
+
 ### Library
 The website uses [D3.js](d3js.org) to draw visualization and jQeury to make smooth user experience.
