@@ -2,7 +2,7 @@ var albumdata = [];
 var rankdata = [];
 var totalwords = [];
 
-function readData(data, error) {
+function readTotalData(data, error) {
     if (error) console.log(error);
 
     data.forEach(d => {
@@ -83,8 +83,11 @@ function drawCloud() {
 function main() {
     // draw cloud text
     d3.csv("data/total-modified.csv")
-        .then(readData)
+        .then(readTotalData)
         .then(drawCloud)
+    
+    // draw sentiment graph
+    d3.csv("data/sentiment.csv").then(readSentiment)
 }
 
 main()
