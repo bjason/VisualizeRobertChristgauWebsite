@@ -1,0 +1,163 @@
+.typo,
+.list a {
+	font-size: 60px;
+	font-weight: 700;
+	color: #585858;
+	text-decoration: none;
+}
+
+.typo option,
+.list a option {
+	font-size: 30px;
+}
+
+div.typo {
+	display: inline-block;
+}
+
+/* .transition {
+	-webkit-transition: all .4s ease-in-out;
+	transition: all .4s ease-in-out;
+} */
+
+/* body {
+	text-align: center;
+} */
+
+.wrapper {
+	padding-top: 15%;
+	padding-bottom: 15%;
+	font-size: 60px;
+	width: 880px;
+	position: relative;
+	right: 0%;
+	display: inline-block;
+}
+
+.list {
+	display: inline-block;
+	position: relative;
+	margin-left: 6px;
+}
+
+.list ul {
+	text-align: left;
+	position: absolute;
+	padding: 0;
+	top: 0;
+	left: 0;
+	/* display: none; */
+}
+
+.list ul .active {
+	display: block;
+}
+
+.list li {
+	list-style: none;
+}
+
+#curr {
+	color: #7d40bf;
+}
+
+.curr {
+	color: #7d40bf;
+}
+
+.list a {
+	-webkit-transition: all .4s;
+	transition: all .4s;
+	position: relative;
+}
+
+/* .list a:after {
+	position: absolute;
+	content: '';
+	height: 5px;
+	width: 0;
+	left: 0;
+	background: #b066ff;
+	bottom: 0;
+	-webkit-transition: all .4s ease-out;
+	transition: all .4s ease-out;
+} */
+
+.list a:hover {
+	cursor: pointer;
+	color: #b066ff;
+}
+
+.list a:hover:after {
+	width: 100%;
+}
+
+/* select {
+	display: inline;
+	border: 0;
+	width: auto;
+	margin-left: 10px;
+	outline: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	border-bottom: 2px solid #555;
+	color: #7b00ff;
+	-webkit-transition: all .4s ease-in-out;
+	transition: all .4s ease-in-out;
+} */
+/* 
+select:hover {
+	cursor: pointer;
+}
+
+select option {
+	border: 0;
+	border-bottom: 1px solid #555;
+	padding: 10px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+} */
+
+.placeholder {
+	border-bottom: 4px solid;
+	cursor: pointer;
+}
+
+.placeholder:hover {
+	color: #888888;
+}
+
+/* SVG styling */
+path {
+	fill: #CED8B6;
+}
+
+line {
+	stroke: #555;
+	stroke-width: 2px;
+}
+
+line#bestfit {
+	stroke: #ddd;
+	stroke-width: 10px;
+}
+
+#xAxis path,
+#yAxis path,
+#xAxis line,
+#yAxis line {
+	stroke: #ccc;
+	fill: none;
+	shape-rendering: crispEdges;
+}
+
+#yLabel,
+#xLabel {
+	font-size: 14px;
+	fill: #888;
+}
+
+.dots {
+	opacity: 0.8;
+	stroke-width: 3px;
+}

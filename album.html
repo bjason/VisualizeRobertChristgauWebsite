@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Album detail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <script src="main.js"></script> -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/list.css" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script type="text/javascript">
+        var thisURL = document.URL;
+        var argUrl = thisURL.split('?');
+
+        if (argUrl.length > 1) {
+            var arg = argUrl[1].split("&");
+            var artist = arg[0].split("=")[1].replace(/%20/g, ' ');
+            var album = arg[1].split("=")[1].replace(/%20/g, ' ');
+            var rank = arg[2].split("=")[1];
+
+            d3.csv("data/" + rank + ".csv").then((data, error) => {
+                if (error) console.log(error);
+
+                var res = data.filter(d => d.artist == artist).filter(d => d.album == album)[0];
+                console.log(res);
+
+                d3.select('#cover')
+                    .attr('src', 'css/album.jpg')
+                    .attr('height', 200)
+                    .attr('width', 200)
+                    .style('margin-left', '3%')
+                    .style('margin-right', '3%')
+                    .style('float', 'left')
+                    .attr('alt', 'cover image')
+                d3.select("#title").text(album)
+                d3.select("#artist").text(artist)
+                d3.select("#link").text(res['url']).attr('href', res['url'])
+                d3.select("#comment").text(res['comment'])
+            });
+        } else
+            d3.select('#error_info').text('-Incorrect-')
+    </script>
+</head>
+
+<body>
+    <div class="topnav text">
+        <div class="topnav-right">
+            <!-- <a href="index.html">Home</a> -->
+            <a href="index.html">Home</a>
+            <a href="list.html">List</a>
+            <a href="review.html">Reviews</a>
+        </div>
+    </div>
+
+    <div class="flexcontainer" style="margin: 5%;">
+        <aside>
+            <img id="cover">
+        </aside>
+        <section class="text content bodytext">
+            <h1 id="title"></h1>
+            <h3 id="artist"></h3>
+            <p><b>Original page: </b><a id="link"></a></p>
+            <p><b>Comment: </b>
+                <p id="comment"></p>
+            </p>
+        </section>
+    </div>
+
+    <div style=" text-align: center;">
+        <p id="error_info" class="text" style="font-size:150%;"></p>
+    </div>
+</body>
+
+</html>

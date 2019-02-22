@@ -61,6 +61,10 @@ div.typo {
 	color: #7d40bf;
 }
 
+.curr {
+	color: #7d40bf;
+}
+
 .list a {
 	-webkit-transition: all .4s;
 	transition: all .4s;
@@ -121,4 +125,39 @@ select option {
 
 .placeholder:hover {
 	color: #888888;
+}
+
+/* SVG styling */
+path {
+	fill: #CED8B6;
+}
+
+line {
+	stroke: #555;
+	stroke-width: 2px;
+}
+
+line#bestfit {
+	stroke: #ddd;
+	stroke-width: 10px;
+}
+
+#xAxis path,
+#yAxis path,
+#xAxis line,
+#yAxis line {
+	stroke: #ccc;
+	fill: none;
+	shape-rendering: crispEdges;
+}
+
+#yLabel,
+#xLabel {
+	font-size: 14px;
+	fill: #888;
+}
+
+.dots {
+	opacity: 0.8;
+	stroke-width: 3px;
 }

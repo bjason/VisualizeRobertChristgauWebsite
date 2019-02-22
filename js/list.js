@@ -19,16 +19,21 @@ var spinner;
 var currIndex;
 var mostLoadNum = 30;
 
+var currRank;
+var currYear;
+
 function readMusicData(data, error) {
     if (error) console.log(error);
 
     var id = 0
 
     data.forEach(d => {
-        var rank = d.Rank;
-        var artist = d.Artist;
-        var year = d.Year;
-        var album = d.Album;
+        var rank = d.rank;
+        var artist = d.artist;
+        var year = d.year;
+        var album = d.album;
+        var pol = parseFloat(d.polarity);
+        var subj = parseFloat(d.subjectivity);
 
         musicdata.push({
             // isSoundTrack: d.isSoundTrack,
@@ -36,7 +41,9 @@ function readMusicData(data, error) {
             rank: rank,
             album: album,
             artist: artist,
-            year: year
+            year: year,
+            pol: pol,
+            subj: subj
         })
         id += 1
     })
@@ -50,18 +57,176 @@ function main() { // loader settings
 
     if (argUrl.length > 1) {
         var arg = argUrl[1].split("&");
-        d3.csv("rc.csv").then(readMusicData).then(() => filterData([arg[0].split("=")[1]], [arg[1].split("=")[1]]));
+        var rank = arg[0].split("=")[1];
+        var year = arg[1].split("=")[1];
+
+        d3.csv("data/rc.csv").then(readMusicData).then(() => filterData([rank], [year]));
     } else
         // trigger loader
         // var target = document.getElementById('spinner_sec');
         // spinner = new Spinner(opts).spin(target);
 
-        d3.csv("rc.csv").then(readMusicData).then(() => filterData(rankList, years));
+        d3.csv("data/rc.csv").then(readMusicData).then(() => filterData("all", 'all'));
 }
 
 main();
 
+function loadList(data, list) {
+    var listdiv = list.selectAll('.listitem')
+        .data(data)
+        .enter().append('div')
+        .attr('class', 'text')
+        .attr('class', 'listdiv')
+        .style('overflow', 'auto')
+        .style('margin', '5%')
+        .style('margin-left', '0%')
+        .on('click', function (d) {
+            window.location.replace("album.html?artist=" + d.artist + "&album=" + d.album + "&rank=" + d.rank, '_self')
+        })
+    var g = listdiv.append('svg')
+        .attr('height', 120)
+        .attr('width', 60)
+        .style('float', 'left')
+        .append('g')
+    g.append('rect')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('height', 120)
+        .attr('width', 60)
+        .attr('fill', d => rankColor[rankList.indexOf(d.rank)])
+    g.append('text')
+        .attr('class', 'text')
+        .attr('fill', 'white')
+        .attr('x', 20)
+        .attr('y', 63)
+        .text(d => d.rank)
+
+    var imgd = []
+    listdiv.append('img')
+        .attr('src', 'css/album.jpg')
+        .attr('height', 120)
+        .attr('width', 120)
+        .style('margin-left', '3%')
+        .style('margin-right', '3%')
+        .style('float', 'left')
+        .attr('id', d => 'img' + d.id)
+        .attr('alt', d => {
+            imgd.push(d)
+            return 'cover image'
+        })
+
+    var ld = listdiv.append('div')
+        // .style('margin-left', '5%')
+        .attr('class', 'text')
+        .style('display', 'inline-block')
+    ld.append('h3')
+        .text(d => d.album + ' (' + d.year + ')')
+    ld.append('p')
+        .append('i')
+        .text(d => d.artist)
+        .style('font-size', '120%')
+
+    var colorPol = d3.scaleLinear()
+        .domain([0, 1])
+        .interpolate(d3.interpolateHcl)
+        .range([d3.rgb('#FEDFE1'), d3.rgb('#CB1B45')]);
+
+    var colorSubj = d3.scaleLinear()
+        .domain([0, 1])
+        .interpolate(d3.interpolateHcl)
+        .range([d3.rgb('#81C7D4'), d3.rgb('#0F2540')]);
+
+    var g = listdiv.append('svg')
+        .attr('height', 60)
+        .attr('width', 120)
+        .style('float', 'right')
+        .style('margin-right', '17%')
+        .append('g')
+    g.append('circle')
+        .attr('cx', 30)
+        .attr('cy', 30)
+        .attr('height', 60)
+        .attr('width', 60)
+        .attr('fill', (d, i) => {
+            return colorPol(d.pol)
+        })
+        .attr('r', (d, i) => {
+            return d.pol > 0.5 ? 0.5 : d.pol * 60;
+        })
+        .append("svg:title")
+        .text((d) => {
+            return "Polarity: " + d.pol;
+        })
+    g.append('circle')
+        .attr('cx', 90)
+        .attr('cy', 30)
+        .attr('height', 60)
+        .attr('width', 60)
+        .attr('fill', (d, i) => {
+            return colorSubj(d.subj)
+        })
+        .attr('r', (d, i) => {
+            return d.subj > 0.5 ? 0.5 : d.subj * 60;
+        })
+        .append("svg:title")
+        .text((d) => {
+            return "Subjectivity: " + d.subj;
+        })
+    imgd.forEach(d => {
+        var id = d.id
+        $.get(
+            "//ws.audioscrobbler.com/2.0/", {
+                method: 'album.getinfo',
+                api_key: 'e0981426c1bea500a1c4b35b14164a2f',
+                artist: d.artist,
+                album: d.album,
+                format: 'json'
+            },
+            function (data) {
+                console.log(data);
+                if (!("error" in data)) {
+                    res = data["album"]["image"][2]["#text"];
+                    if (res.length != 0)
+                        d3.select('#img' + id).attr('src', res)
+                    else d3.select('#img' + id).attr('src', 'css/album.jpg')
+                } else d3.select('#img' + id).attr('src', 'css/album.jpg')
+            }
+        )
+    })
+}
+
+function appendList() {
+    var year = currYear;
+    var rank = currRank;
+    // done hyperlink setting
+    var list = d3.select('#albumlist')
+
+    if (year == "all") {
+        d3.select('#year_all').attr('class', 'curr')
+        year = years
+    }
+    if (rank == "all") {
+        d3.select('#rank_all').attr('class', 'curr')
+        rank = rankList
+    }
+
+    var data = musicdata.filter(d => rank.includes(d.rank)).filter(d => year.includes(d.year)).slice(currIndex, currIndex + mostLoadNum);
+    if (data.length == 0 && currIndex > 0) {
+        d3.select('#error_info').text('-End of the list-')
+    }
+
+    if (currIndex == 0)
+        list.selectAll('.listdiv').remove();
+    currIndex += mostLoadNum;
+
+    loadList(data, list);
+}
+
 function filterData(rank, year) {
+    currRank = rank;
+    currYear = year;
+
+    // set hyperlink
     d3.select("#rank_all")
         .on('click', () => {
             var y;
@@ -117,89 +282,26 @@ function filterData(rank, year) {
         .append('a')
         .text(d => d)
         .filter(d => d == year)
-        .attr('id', 'curr')
+        .attr('class', 'curr')
 
+    // done hyperlink setting
     var list = d3.select('#albumlist')
 
-    if (year == "all") year = years
-    if (rank == "all") rank = rankList
+    if (year == "all") {
+        d3.select('#year_all').attr('class', 'curr')
+        year = years
+    }
+    if (rank == "all") {
+        d3.select('#rank_all').attr('class', 'curr')
+        rank = rankList
+    }
 
-    var data = musicdata.filter(d => rank.includes(d.rank)).filter(d => year.includes(d.year)).slice(0, mostLoadNum);
+    var data = musicdata.filter(d => rank.includes(d.rank)).filter(d => year.includes(d.year)).slice(currIndex, currIndex + mostLoadNum);
     if (data.length == 0) {
         d3.select('#error_info').text('Oops! No album released in ' + year + ' ranked as ' + rank)
     }
     currIndex += mostLoadNum;
 
-    list.selectAll('.listdiv').remove()
-
-    var listdiv = list.selectAll('.listitem')
-        .data(data)
-        .enter().append('div')
-        .attr('class', 'text')
-        .attr('class', 'listdiv')
-        .style('overflow', 'auto')
-        .style('margin', '5%')
-    var g = listdiv.append('svg')
-        .attr('height', 120)
-        .attr('width', 60)
-        .style('float', 'left')
-        .append('g')
-    g.append('rect')
-        .attr('x', 0)
-        .attr('y', 0)
-        .attr('height', 120)
-        .attr('width', 60)
-        .attr('fill', d => rankColor[rankList.indexOf(d.rank)])
-    g.append('text')
-        .attr('class', 'text')
-        .attr('fill', 'white')
-        .attr('x', 20)
-        .attr('y', 63)
-        .text(d => d.rank)
-
-    var imgd = []
-    listdiv.append('img')
-        .attr('src', 'css/album.jpg')
-        .attr('height', 120)
-        .attr('width', 120)
-        .style('margin-left', '5%')
-        .style('margin-right', '3%')
-        .style('float', 'left')
-        .attr('id', d => 'img' + d.id)
-        .attr('alt', d => {
-            imgd.push(d)
-            return 'cover image'
-        })
-
-    var ld = listdiv.append('div')
-        .style('margin-left', '5%')
-        .attr('class', 'text')
-    ld.append('h3')
-        .text(d => d.album + ' (' + d.year + ')')
-    ld.append('p')
-        .append('i')
-        .text(d => d.artist)
-        .style('font-size', '120%')
-
-    imgd.forEach(d => {
-        var id = d.id
-        $.get(
-            "//ws.audioscrobbler.com/2.0/", {
-                method: 'album.getinfo',
-                api_key: 'e0981426c1bea500a1c4b35b14164a2f',
-                artist: d.artist,
-                album: d.album,
-                format: 'json'
-            },
-            function (data) {
-                console.log(data);
-                if (!("error" in data)) {
-                    res = data["album"]["image"][2]["#text"];
-                    if (res.length != 0)
-                        d3.select('#img' + id).attr('src', res)
-                    else d3.select('#img' + id).attr('src', 'css/album.jpg')
-                } else d3.select('#img' + id).attr('src', 'css/album.jpg')
-            }
-        )
-    })
+    list.selectAll('.listdiv').remove();
+    loadList(data, list);
 }
