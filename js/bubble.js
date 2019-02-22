@@ -329,12 +329,8 @@ function createBubble(_data) {
 }
 
 function ticked() {
-    console.log("bubble");
-
     node
         .attr('transform', d => `translate(${d.x},${d.y})`)
         .select('circle')
         .attr('r', d => d.r);
-    console.log("after bubble");
-
 }

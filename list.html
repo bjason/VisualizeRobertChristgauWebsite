@@ -12,8 +12,10 @@
 <body>
 	<div class="topnav text">
 		<div class="topnav-right">
+			<!-- <a href="index.html">Home</a> -->
 			<a href="index.html">Home</a>
 			<a class="active" href="list.html">List</a>
+			<a href="review.html">Reviews</a>
 		</div>
 	</div>
 	<div style="width:100%;" align="right">
@@ -24,7 +26,7 @@
 					</ul>
 				</div>
 			</div>
-			<div class="typo text">released in the year of 
+			<div class="typo text">released in the year of
 				<div class="list"><span id="year_all" class="placeholder">All</span>
 					<ul class="list__ul_year text">
 					</ul>
@@ -32,8 +34,6 @@
 			</div>
 		</div>
 	</div>
-
-
 
 	<div id="albumlist_div">
 		<ul id="albumlist">
@@ -49,6 +49,14 @@
 	<script src="https://d3js.org/d3.v5.min.js"></script>
 	<!-- <script src="js/index.js"></script> -->
 	<script src="js/list.js"></script>
+	<script type="text/javascript">
+		window.onscroll = function (ev) {
+			if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+				// alert("you're at the bottom of the page");
+				appendList();
+			}
+		};
+	</script>
 </body>
 
 </html>
