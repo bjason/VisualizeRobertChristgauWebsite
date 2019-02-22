@@ -1,0 +1,262 @@
+.legend rect {
+    fill: white;
+    opacity: 0.8;
+}
+
+a {
+    color: cadetblue;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.header {
+    font-size: 700%;
+    padding-top: 0%;
+    margin: 0;
+}
+
+.subheader {
+    font-size: 1000%;
+    padding-top: 0%;
+    margin: 0;
+    margin-top: -40px;
+    margin-left: -15px;
+    word-spacing: -0.5em;
+    line-height: 80%;
+}
+
+.flexcontainer {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10%;
+    height: auto;
+}
+
+div.chart {
+    height: 100%;
+    margin-bottom: 10%;
+}
+
+.xMatrix {
+    font-size: 70%;
+}
+
+aside {
+    position: sticky;
+    top: 50px;
+}
+
+body {
+    margin: 0px;
+    position: relative;
+    min-height: 100%;
+}
+
+.title {
+    background-image: url(cover-wall.png);
+    background-size: top;
+    width: 100%;
+    height: 100%;
+}
+
+.content {
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 5%;
+    min-height: 100%;
+}
+
+.bodytext {
+    font-size: 125%;
+    line-height: 150%;
+}
+
+.text, .tick, .label {
+    font-family: Constantia, Baskerville;
+}
+
+.firstPageText {
+    font-family: Constantia, Baskerville;
+    color: white;
+}
+
+.image {
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.grid .tick {
+    stroke: lightgrey;
+    opacity: 0.7;
+    shape-rendering: crispEdges;
+}
+
+.grid path {
+    stroke-width: 0;
+}
+
+.axis path {
+    fill: none;
+    stroke: #bbb;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    fill: #555;
+}
+
+.axis line {
+    stroke: #e7e7e7;
+    shape-rendering: crispEdges;
+}
+
+.axis .axis-label {
+    font-size: 14px;
+}
+
+.line {
+    fill: none;
+    stroke-width: 1.5px;
+}
+
+.dot {
+    /* consider the stroke-with the mouse detect radius? */
+    stroke: transparent;
+    stroke-width: 10px;
+    cursor: pointer;
+}
+
+.dot:hover {
+    stroke: rgba(68, 127, 255, 0.3);
+}
+
+.infolabel {
+    position: fixed;
+    width: 210px;
+    height: auto;
+    color: #545454;
+    background-color: #fff;
+    border: solid thin #999;
+    -moz-border-radius: 2px;
+    border-radius: 5px;
+    padding: 5px;
+    opacity: 0.99;
+    z-index: 100;
+    text-align: left;
+    font-family: Constantia, Baskerville;
+}
+
+.infolabel h1 {
+    font-size: 14pt;
+    margin: 0;
+    padding-bottom: 8px;
+    display: inline-block;
+    line-height: 1em;
+    color: #3B3B3B;
+}
+
+.infolabel h3 {
+    font-size: 2px;
+    line-height: .2em;
+}
+
+.infolabel p {
+    font-size: 13pt;
+    font-weight: normal;
+    color: #545454;
+    padding: 2px;
+    margin: 0;
+}
+
+.infolabel h2 {
+    font-size: 13pt;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    color: #3B3B3B;
+    font-weight: normal;
+}
+
+.infolabel b {
+    font-size: 13pt;
+    clear: both;
+}
+
+.tooltip {
+    position: absolute;
+    width: 120;
+    height: auto;
+    font-family: Constantia, Baskerville;
+    font-size: 14px;
+    text-align: center;
+    border-style: solid;
+    border-width: 1px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+a:visited {
+    color: cadetblue;
+}
+
+.circle-overlay {
+    font-size: 16px;
+    border-radius: 50%;
+    position: absolute;
+    overflow: scroll;
+    font-family: Constantia, Baskerville;
+    /*it's buggy with the foreignObject background right now*/
+    /*background-color: rgba(255,255,255,0.5);*/
+}
+
+.circle-overlay__inner {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    font-family: Constantia, Baskerville;
+}
+
+.hidden {
+    display: none;
+}
+
+.node-icon--faded {
+    opacity: 0;
+}
+
+.legend-size circle {
+    fill: rgb(31, 119, 180);
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #111;
+    color: pink;
+}

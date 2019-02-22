@@ -10,39 +10,40 @@ rankList = ['A+', 'A', 'A-', 'B+', '***', '**', '*', 'S', 'N', 'B', 'B-', 'C+', 
 ignorewords = set(['mr', 'mrs', 'one', 'two', 'said', 'i', '/i', '< i >', '< /i >', '<', '>', 'from',
                    'is', 'of', 'it', 'and', 'by', 'his', 'this', 'that', 'in', 'on', "i 'm", "i 'd", "i 've", "ca n't", "wo n't"])
 
-# with open('rc.csv', 'w', newline='') as csvfile:
-#     fieldnames = ['album', 'artist', 'polarity', 'subjectivity']
-#     writer = csv.writer(csvfile)
-#     writer.writerow(f for f in fieldnames)
+with open('rc.csv', 'w', newline='') as csvfile:
+    fieldnames = ['isSoundTrack', 'rank', 'album',
+                  'artist', 'year', 'polarity', 'subjectivity']
+    writer = csv.writer(csvfile)
+    writer.writerow(f for f in fieldnames)
 
-#     wordcount_total = {}
-with open('total-sentiment.csv', 'w', newline='') as rankfile:
-    fieldnames = ['rank', 'subjectivity', 'polarity', 'lengthAvg']
-    rank_writer = csv.writer(rankfile)
-    rank_writer.writerow(f for f in fieldnames)
+    wordcount_total = {}
+# with open('total-sentiment.csv', 'w', newline='') as rankfile:
+    # fieldnames = ['rank', 'subjectivity', 'polarity', 'lengthAvg']
+    # rank_writer = csv.writer(csvfile)
+    # rank_writer.writerow(f for f in fieldnames)
     for rank in rankList:
         with open(rank.replace('*', 'Star') + '.csv', encoding="ISO-8859-1") as csvfile:
             fieldnames = ['isSoundTrack', 'rank', 'album',
                           'artist', 'year', 'url', 'comment']
 
-            wordcount = {}
+            # wordcount = {}
             # reviews = ""
 
-            avgsubjectivity = 0
-            avgpolarity = 0
-            avglen = 0
+            # avgsubjectivity = 0
+            # avgpolarity = 0
+            # avglen = 0
 
             csv_reader = csv.reader(csvfile, delimiter=',')
             rows = 0
             num = 0
             for row in csv_reader:  # an album
-                rows += 1
-                if rows == 1:
+                if rows == 0:
+                    rows += 1
                     continue
 
                 review = row[6].lower()
-                if len(review) == 0:
-                    continue
+                # if len(review) == 0:
+                #     continue
                 # .replace(".", "").replace(",", "").replace(":", "").replace(
                 #     "\"", "").replace("!", "").replace("â€œ", "").replace("â€˜", "").replace("*", "")
                 # reviews += review
@@ -52,12 +53,14 @@ with open('total-sentiment.csv', 'w', newline='') as rankfile:
                 pol = sentence.sentiment.polarity
                 subj = sentence.sentiment.subjectivity
 
-                print(pol)
+                d = [row[0], row[1], row[2], row[3], row[4], pol, subj]
 
-                avglen += len(review)
-                avgpolarity += pol
-                avgsubjectivity += subj
-                num += 1
+                # print(pol)
+
+                # avglen += len(review)
+                # avgpolarity += pol
+                # avgsubjectivity += subj
+                # num += 1
 
                 # for word in sentence.noun_phrases:
                 #     if word not in ignorewords:
@@ -81,7 +84,7 @@ with open('total-sentiment.csv', 'w', newline='') as rankfile:
                 #             wordcount[word] += 1
                 #             wordcount_total[word] += 1
 
-                # writer.writerow(d)
+                writer.writerow(d)
 
     # n_print = 50
     # print("\nOK. The {} most common words are as follows\n".format(n_print))
@@ -92,12 +95,12 @@ with open('total-sentiment.csv', 'w', newline='') as rankfile:
     #     d = [word, count]
     #     rank_writer.writerow(d)
 
-            if num == 0:
-                continue
-            if rows == 0:
-                continue
-            d = [rank, avgsubjectivity/ num,avgpolarity/ num, avglen/ rows]
-            rank_writer.writerow(d)
+            # if num == 0:
+            #     continue
+            # if rows == 0:
+            #     continue
+            # d = [rank, avgsubjectivity/ num,avgpolarity/ num, avglen/ rows]
+            # rank_writer.writerow(d)
 # with open('total-modified.csv', 'w', newline='') as rankfile:
 #     n_print = 100
 #     print("\nOK. The {} most common words are as follows\n".format(n_print))

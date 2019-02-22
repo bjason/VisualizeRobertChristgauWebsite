@@ -8,7 +8,8 @@ function readTotalData(data, error) {
     data.forEach(d => {
         totalwords.push({
             text: d.word,
-            size: d.frequency * d.frequency * 2 / 3
+            size: d.frequency * d.frequency * 2 / 3,
+            prop: d.property
         })
     });
 
@@ -37,6 +38,14 @@ function readTotalData(data, error) {
     // }
 }
 
+var propToColor = {
+    artist: '#F596AA',
+    genre: '#572A3F',
+    album: '#EB7A77',
+    production: '#CC543A',
+    default: '#563F2E'
+}
+
 function drawCloud() {
     // console.log(totalwords);
     let wid = window.innerWidth * 0.95;
@@ -54,12 +63,10 @@ function drawCloud() {
             return d.size;
         })
         .on("end", (words) => {
-            console.log(words);
-
-            d3.select("#vis").append("svg")
+            let vis = d3.select("#vis").append("svg")
                 .attr("width", layout.size()[0])
                 .attr("height", layout.size()[1])
-                .append("g")
+            vis.append("g")
                 .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
                 .selectAll("text")
                 .data(words)
@@ -68,14 +75,17 @@ function drawCloud() {
                     return d.size + "px";
                 })
                 .style("font-family", "Impact")
-                .style("fill", "black")
+                .style("fill", function (d) {
+                    return propToColor[d.prop]
+                })
+                .attr('class', d => d.prop)
                 .attr("text-anchor", "middle")
                 .attr("transform", function (d) {
                     return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
                 })
                 .text(function (d) {
                     return d.text;
-                });
+                })
         });
     layout.start();
 }
@@ -85,9 +95,32 @@ function main() {
     d3.csv("data/total-modified.csv")
         .then(readTotalData)
         .then(drawCloud)
-    
-    // draw sentiment graph
-    d3.csv("data/sentiment.csv").then(readSentiment)
 }
 
-main()
+var hidden = {
+    artist: 0,
+    genre: 0,
+    album: 0,
+    production: 0,
+    default: 0
+}
+
+function legendClick(prop) {
+    if (hidden[prop] == 0) {
+        hidden[prop] = 1;
+        // hide all text in cloud
+        d3.selectAll('.' + prop)
+            .transition()
+            .duration(500)
+            .style('opacity', 0)
+    } else {
+        // show all text in cloud
+        d3.selectAll('.' + prop)
+            .transition()
+            .duration(500)
+            .style('opacity', 1)
+        hidden[prop] = 0;
+    }
+}
+
+main();

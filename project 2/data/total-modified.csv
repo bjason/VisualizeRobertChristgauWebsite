@@ -1,49 +1,48 @@
-word,frequency
-smokey ,14
-green ,12
-dis poem,12
-worth,12
-bob dylan,10
-otis ,10
-yazoo ,10
-hard beats,10
-turning point,10
-gypsy brass,10
-double album,10
-target audience,10
-closet chapter,10
-george jones,8
-dead,8
-dj shadow,8
-sonny rollins,8
-hammond b-3,8
-glad i,8
-official debut,8
-lead track,8
-mild,8
-youssou n'dour,8
-ideal introduction,8
-dr. john,8
-racial identity,8
-hit parade,8
-fist city,8
-classic blues,8
-'d swear,8
-elizabeth nelson,8
-linda ronstadt,8
-roy ayers,8
-pink flag,8
-kenny gamble,8
-slow songs,8
-lisa lee,8
-young things,8
-winston rodney,8
-leon huff,8
-induku zethu,8
-joy division,8
-joan baez,8
-paul weller,8
-> blender,8
-side story,8
-mississippi sheiks,8
-serious stuff,8
+word,frequency,property
+smokey ,14,artist
+green ,12,default
+dis poem,12,album
+worth,12,default
+bob dylan,10,artist
+otis ,10,artist
+yazoo ,10,artist
+hard beats,10,genre
+turning point,10,default
+gypsy brass,10,genre
+double album,10,production
+target audience,10,default
+closet chapter,10,default
+george jones,8,artist
+dead,8,default
+dj shadow,8,artist
+sonny rollins,8,artist
+hammond b-3,8,production
+official debut,8,production
+lead track,8,production
+mild,8,default
+youssou n'dour,8,artist
+ideal introduction,8,default
+dr. john,8,artist
+racial identity,8,default
+hit parade,8,production
+fist city,8,album
+classic blues,8,genre
+swear,8,default
+elizabeth nelson,8,artist
+linda ronstadt,8,artist
+roy ayers,8,artist
+pink flag,8,album
+kenny gamble,8,artist
+slow songs,8,genre
+lisa lee,8,arat
+young things,8,default
+winston rodney,8,artist
+leon huff,8,artist
+induku zethu,8,artist
+joy division,8,artist
+joan baez,8,artist
+paul weller,8,artist
+blender,8,production
+side story,8,default
+mississippi sheiks,8,artist
+serious stuff,8,default

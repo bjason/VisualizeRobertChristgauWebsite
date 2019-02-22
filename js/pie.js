@@ -649,7 +649,6 @@ function main() {
         "text-anchor": "middle"
     });
 
-    console.log("legend")
     legend = vis.append("g")
         .attr("class", "legend")
         .attr("id", "legend_pie")
