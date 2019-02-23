@@ -118,9 +118,8 @@ button {
     right: 0;
 }
 
-.PStitle {
-    font-style: italic;
-    font-size: 12px;
+div .title {
     display: inline-block;
-    color: #585858;
+    width: 60;
+    font-style: italic;
 }
