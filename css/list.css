@@ -7,7 +7,8 @@
 }
 
 /* Style the links inside the navigation bar */
-.topnav a {
+.topnav a,
+.topnav div {
     float: left;
     color: black;
     text-align: center;
@@ -48,4 +49,71 @@ a:visited {
 li:hover {
     background: #eee;
     cursor: pointer;
+}
+
+div .title {
+    display: inline-block;
+    width: 60;
+    font-style: italic;
+}
+
+div.search {
+    padding: 10px 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 20px;
+}
+
+form {
+    position: relative;
+    width: 300px;
+    margin: 0 auto;
+}
+
+input,
+button {
+    border: none;
+    outline: none;
+}
+
+input {
+    width: 100%;
+    height: 42px;
+    padding-left: 13px;
+}
+
+button {
+    height: 42px;
+    width: 42px;
+    cursor: pointer;
+    position: absolute;
+    background-color: transparent;
+    font-family: Constantia, Baskerville;
+}
+
+.bar8 form {
+    height: 42px;
+}
+
+.bar8 input {
+    width: 0;
+    padding: 0 42px 0 15px;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    transition: .3s linear;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.bar8 input:focus {
+    width: 250px;
+    z-index: 1;
+    border-bottom: 2px solid #F9F0DA;
+}
+
+.bar8 button {
+    top: 0;
+    right: 0;
 }
