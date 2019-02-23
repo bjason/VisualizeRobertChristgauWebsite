@@ -117,3 +117,10 @@ button {
     top: 0;
     right: 0;
 }
+
+.PStitle {
+    font-style: italic;
+    font-size: 12px;
+    display: inline-block;
+    color: #585858;
+}

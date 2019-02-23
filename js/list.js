@@ -22,6 +22,7 @@ var mostLoadNum = 30;
 var currRank;
 var currYear;
 var currData;
+var prevData;
 
 function readMusicData(data, error) {
     if (error) console.log(error);
@@ -222,256 +223,274 @@ function appendList() {
     } else {
         loadList(data);
     }
+}
 
-    function loadList(data) {
-        var list = d3.select('#albumlist');
+function loadList(data) {
+    var list = d3.select('#albumlist');
 
-        var listdiv = list.selectAll('.listitem')
-            .data(data)
-            .enter().append('div')
-            .attr('class', 'text')
-            .attr('class', 'listdiv')
-            .style('overflow', 'auto')
-            .style('margin', '5%')
-            .style('margin-left', '0%')
-            .on('click', function (d) {
-                window.location.replace("album.html?artist=" + d.artist + "&album=" + d.album + "&rank=" + d.rank, '_self')
+    var listdiv = list.selectAll('.listitem')
+        .data(data)
+        .enter().append('div')
+        .attr('class', 'text')
+        .attr('class', 'listdiv')
+        .style('overflow', 'auto')
+        .style('margin', '5%')
+        .style('margin-left', '0%')
+        .on('click', function (d) {
+            window.location.replace("album.html?artist=" + d.artist + "&album=" + d.album + "&rank=" + d.rank, '_self')
 
-                var coverUrl = encodeURI(d3.select('#img' + d.id).attr('src'));
-                var url = "album.html?artist=" + d.artist.replace(/&/g, 'AndSign') + "&album=" + d.album.replace(/&/g, 'AndSign') + "&rank=" + d.rank + "&cover=" + coverUrl;
-                window.location.href = url;
-            })
-        var g = listdiv.append('svg')
-            .attr('height', 120)
-            .attr('width', 60)
-            .style('float', 'left')
-            .append('g')
-        g.append('rect')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('height', 120)
-            .attr('width', 60)
-            .attr('fill', d => rankColor[rankList.indexOf(d.rank)])
-        g.append('text')
-            .attr('class', 'text')
-            .attr('fill', 'white')
-            .attr('x', 20)
-            .attr('y', 63)
-            .text(d => d.rank)
-
-        var imgd = []
-        listdiv.append('img')
-            .attr('src', 'css/album.jpg')
-            .attr('height', 120)
-            .attr('width', 120)
-            .style('margin-left', '3%')
-            .style('margin-right', '3%')
-            .style('float', 'left')
-            .attr('id', d => 'img' + d.id)
-            .attr('alt', d => {
-                imgd.push(d)
-                return 'cover image'
-            })
-
-        var ld = listdiv.append('div')
-            // .style('margin-left', '5%')
-            .attr('class', 'text')
-            .style('display', 'inline-block')
-        ld.append('h3')
-            .text(d => d.album + ' (' + d.year + ')')
-        ld.append('p')
-            .append('i')
-            .text(d => d.artist)
-            .style('font-size', '120%')
-
-        var colorPol = d3.scaleLinear()
-            .domain([0, 1])
-            .interpolate(d3.interpolateHcl)
-            .range([d3.rgb('#FEDFE1'), d3.rgb('#CB1B45')]);
-
-        var colorSubj = d3.scaleLinear()
-            .domain([0, 1])
-            .interpolate(d3.interpolateHcl)
-            .range([d3.rgb('#81C7D4'), d3.rgb('#0F2540')]);
-
-        var g = listdiv.append('svg')
-            .attr('height', 60)
-            .attr('width', 120)
-            .style('float', 'right')
-            .style('margin-right', '17%')
-            .append('g')
-        g.append('circle')
-            .attr('cx', 30)
-            .attr('cy', 30)
-            .attr('height', 60)
-            .attr('width', 60)
-            .attr('fill', (d, i) => {
-                return colorPol(d.pol)
-            })
-            .attr('r', (d, i) => {
-                return d.pol > 0.5 ? 0.5 : d.pol * 60;
-            })
-            .append("svg:title")
-            .text((d) => {
-                return "Polarity: " + d.pol;
-            })
-        g.append('circle')
-            .attr('cx', 90)
-            .attr('cy', 30)
-            .attr('height', 60)
-            .attr('width', 60)
-            .attr('fill', (d, i) => {
-                return colorSubj(d.subj)
-            })
-            .attr('r', (d, i) => {
-                return d.subj > 0.5 ? 0.5 : d.subj * 60;
-            })
-            .append("svg:title")
-            .text((d) => {
-                return "Subjectivity: " + d.subj;
-            })
-        imgd.forEach(d => {
-            var id = d.id
-            $.get(
-                "//ws.audioscrobbler.com/2.0/", {
-                    method: 'album.getinfo',
-                    api_key: 'e0981426c1bea500a1c4b35b14164a2f',
-                    artist: d.artist,
-                    album: d.album,
-                    format: 'json'
-                },
-                function (data) {
-                    console.log(data);
-                    if (!("error" in data)) {
-                        res = data["album"]["image"][2]["#text"];
-                        if (res.length != 0)
-                            d3.select('#img' + id).attr('src', res)
-                        else d3.select('#img' + id).attr('src', 'css/album.jpg')
-                    } else d3.select('#img' + id).attr('src', 'css/album.jpg')
-                }
-            )
+            var coverUrl = encodeURI(d3.select('#img' + d.id).attr('src'));
+            var url = "album.html?artist=" + d.artist.replace(/&/g, 'AndSign') + "&album=" + d.album.replace(/&/g, 'AndSign') + "&rank=" + d.rank + "&cover=" + coverUrl;
+            window.location.href = url;
         })
+    var g = listdiv.append('svg')
+        .attr('height', 120)
+        .attr('width', 60)
+        .style('float', 'left')
+        .append('g')
+    g.append('rect')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('height', 120)
+        .attr('width', 60)
+        .attr('fill', d => rankColor[rankList.indexOf(d.rank)])
+    g.append('text')
+        .attr('class', 'text')
+        .attr('fill', 'white')
+        .attr('x', 20)
+        .attr('y', 63)
+        .text(d => d.rank)
+
+    var imgd = []
+    listdiv.append('img')
+        .attr('src', 'css/album.jpg')
+        .attr('height', 120)
+        .attr('width', 120)
+        .style('margin-left', '3%')
+        .style('margin-right', '3%')
+        .style('float', 'left')
+        .attr('id', d => 'img' + d.id)
+        .attr('alt', d => {
+            imgd.push(d)
+            return 'cover image'
+        })
+
+    var ld = listdiv.append('div')
+        // .style('margin-left', '5%')
+        .attr('class', 'text')
+        .style('display', 'inline-block')
+    ld.append('h3')
+        .text(d => d.album + ' (' + d.year + ')')
+    ld.append('p')
+        .append('i')
+        .text(d => d.artist)
+        .style('font-size', '120%')
+
+    var colorPol = d3.scaleLinear()
+        .domain([0, 1])
+        .interpolate(d3.interpolateHcl)
+        .range([d3.rgb('#FEDFE1'), d3.rgb('#CB1B45')]);
+
+    var colorSubj = d3.scaleLinear()
+        .domain([0, 1])
+        .interpolate(d3.interpolateHcl)
+        .range([d3.rgb('#81C7D4'), d3.rgb('#0F2540')]);
+
+    var g = listdiv.append('svg')
+        .attr('height', 60)
+        .attr('width', 120)
+        .style('float', 'right')
+        .style('margin-right', '17%')
+        .append('g')
+    g.append('circle')
+        .attr('cx', 30)
+        .attr('cy', 30)
+        .attr('height', 60)
+        .attr('width', 60)
+        .attr('fill', (d, i) => {
+            return colorPol(d.pol)
+        })
+        .attr('r', (d, i) => {
+            return d.pol > 0.5 ? 0.5 : d.pol * 60;
+        })
+        .append("svg:title")
+        .text((d) => {
+            return "Polarity: " + d.pol;
+        })
+    g.append('circle')
+        .attr('cx', 90)
+        .attr('cy', 30)
+        .attr('height', 60)
+        .attr('width', 60)
+        .attr('fill', (d, i) => {
+            return colorSubj(d.subj)
+        })
+        .attr('r', (d, i) => {
+            return d.subj > 0.5 ? 0.5 : d.subj * 60;
+        })
+        .append("svg:title")
+        .text((d) => {
+            return "Subjectivity: " + d.subj;
+        })
+
+    // fetch data from last.fm
+    imgd.forEach(d => {
+        var id = d.id
+        $.get(
+            "//ws.audioscrobbler.com/2.0/", {
+                method: 'album.getinfo',
+                api_key: 'e0981426c1bea500a1c4b35b14164a2f',
+                artist: d.artist,
+                album: d.album,
+                format: 'json'
+            },
+            function (data) {
+                console.log(data);
+                if (!("error" in data)) {
+                    res = data["album"]["image"][2]["#text"];
+                    if (res.length != 0)
+                        d3.select('#img' + id).attr('src', res)
+                    else d3.select('#img' + id).attr('src', 'css/album.jpg')
+                } else d3.select('#img' + id).attr('src', 'css/album.jpg')
+            }
+        )
+    })
+}
+
+function appendList() {
+    // newly loaded data
+    var data = currData.slice(currIndex, currIndex + mostLoadNum);
+    currIndex += mostLoadNum;
+
+    if (data.length == 0 && currIndex > 0) {
+        d3.select('#error_info').text('-End of the list-')
+    } else {
+        loadList(data);
+    }
+}
+
+function filterData(rank, year) {
+    currRank = rank;
+    currYear = year;
+
+    // set hyperlink
+    d3.select("#rank_all")
+        .on('click', () => {
+            var y;
+            if (year.length == 1) y = year
+            else y = "all"
+
+            // self.location.href = "list.html?rank=all&year=" + y;
+            window.location.href = "list.html?rank=all&year=" + y;
+        })
+
+    d3.select("#year_all")
+        .on('click', () => {
+            var r;
+            if (rank.length == 1) r = rank
+            else r = "all"
+
+            // self.location.href = "list.html?rank=" + r + "&year=all";
+            window.location.href = "list.html?rank=" + r + "&year=all";
+        })
+
+    d3.select('.list__ul').selectAll('.text')
+        .data(rankList)
+        .enter().append('li')
+        .attr('class', 'text')
+        .on('click', function (d, i) {
+            var y;
+            if (year.length == 1) y = year
+            else y = "all"
+
+            if (d == rank) d = "all"
+            // window.location.href("list.html?rank=" + d + "&year=" + y)
+            self.location.href = "list.html?rank=" + d + "&year=" + y;
+        })
+        .append('a')
+        .text(d => d)
+        .filter(d => d == rank)
+        .attr('id', 'curr')
+
+    d3.select('.list__ul_year').selectAll('.text')
+        .data(years)
+        .enter().append('li')
+        .attr('class', 'text')
+        .on('click', function (d, i) {
+            var r;
+            if (rank.length == 1) r = rank
+            else r = "all"
+
+            if (d == year) d = "all"
+
+            // window.location.href("list.html?rank=" + r + "&year=" + d, '_self')
+            self.location.href = "list.html?rank=" + r + "&year=" + d;
+        })
+        .append('a')
+        .text(d => d)
+        .filter(d => d == year)
+        .attr('id', 'curr')
+
+    if (year == "all") {
+        d3.select('#year_all').attr('class', 'curr')
+        year = years
+    }
+    if (rank == "all") {
+        d3.select('#rank_all').attr('class', 'curr')
+        rank = rankList
     }
 
-    function appendList() {
-        // newly loaded data
-        var data = currData.slice(currIndex, currIndex + mostLoadNum);
-        currIndex += mostLoadNum;
+    // done hyperlink setting
+    // remove old content
+    d3.select('#albumlist').selectAll('.listdiv').remove();
 
-        if (data.length == 0 && currIndex > 0) {
-            d3.select('#error_info').text('-End of the list-')
-        } else {
-            loadList(data);
-        }
+    // get current selected data
+    currData = musicdata.filter(d => rank.includes(d.rank)).filter(d => year.includes(d.year));
+    if (currData.length == 0) {
+        d3.select('#error_info').text('Oops! No album released in ' + year + ' ranked as ' + rank)
+    } else {
+        appendList();
+    }
+}
+
+var searchLen = 0;
+
+function searchList() {
+    window.scrollTo(0, 0);
+    currIndex = 0;
+
+    var input, filter;
+    input = document.getElementById('searchContent');
+    filter = input.value.toUpperCase();
+
+    if (searchLen == 0) {
+        prevData = currData;
     }
 
-    function filterData(rank, year) {
-        currRank = rank;
-        currYear = year;
+    // remove navigation highlight
+    // d3.selectAll('.curr').attr('class', '')
+    // d3.selectAll('#curr').attr('id', '')
 
-        // set hyperlink
-        d3.select("#rank_all")
-            .on('click', () => {
-                var y;
-                if (year.length == 1) y = year
-                else y = "all"
-
-                // self.location.href = "list.html?rank=all&year=" + y;
-                window.location.href = "list.html?rank=all&year=" + y;
-            })
-
-        d3.select("#year_all")
-            .on('click', () => {
-                var r;
-                if (rank.length == 1) r = rank
-                else r = "all"
-
-                // self.location.href = "list.html?rank=" + r + "&year=all";
-                window.location.href = "list.html?rank=" + r + "&year=all";
-            })
-
-        d3.select('.list__ul').selectAll('.text')
-            .data(rankList)
-            .enter().append('li')
-            .attr('class', 'text')
-            .on('click', function (d, i) {
-                var y;
-                if (year.length == 1) y = year
-                else y = "all"
-
-                if (d == rank) d = "all"
-                // window.location.href("list.html?rank=" + d + "&year=" + y)
-                self.location.href = "list.html?rank=" + d + "&year=" + y;
-            })
-            .append('a')
-            .text(d => d)
-            .filter(d => d == rank)
-            .attr('id', 'curr')
-
-        d3.select('.list__ul_year').selectAll('.text')
-            .data(years)
-            .enter().append('li')
-            .attr('class', 'text')
-            .on('click', function (d, i) {
-                var r;
-                if (rank.length == 1) r = rank
-                else r = "all"
-
-                if (d == year) d = "all"
-
-                // window.location.href("list.html?rank=" + r + "&year=" + d, '_self')
-                self.location.href = "list.html?rank=" + r + "&year=" + d;
-            })
-            .append('a')
-            .text(d => d)
-            .filter(d => d == year)
-            .attr('id', 'curr')
-
-        if (year == "all") {
-            d3.select('#year_all').attr('class', 'curr')
-            year = years
-        }
-        if (rank == "all") {
-            d3.select('#rank_all').attr('class', 'curr')
-            rank = rankList
-        }
-
-        // done hyperlink setting
+    if (searchLen > filter.length) { // deleting words
+        currData = prevData;
         // remove old content
-        d3.select('#albumlist').selectAll('.listdiv').remove();
-
-        // get current selected data
-        currData = musicdata.filter(d => rank.includes(d.rank)).filter(d => year.includes(d.year));
-        if (currData.length == 0) {
-            d3.select('#error_info').text('Oops! No album released in ' + year + ' ranked as ' + rank)
-        } else {
+        if (filter.length == 0) {
+            d3.select('#albumlist').selectAll('.listdiv').remove();
             appendList();
         }
     }
+    if (filter.length > 1) {
+        // remove old content
+        d3.select('#albumlist').selectAll('.listdiv').remove();
 
-    function searchList() {
-        window.scrollTo(0, 0);
-        currIndex = 0;
+        // get all matched data
+        currData = currData.filter(d => d.artist.toUpperCase().includes(filter) || d.album.toUpperCase().includes(filter));
 
-        var input, filter;
-        input = document.getElementById('searchContent');
-        filter = input.value.toUpperCase();
-
-        //TODO remove navigation highlight
-        d3.selectAll('.curr').attr('class', '')
-        d3.selectAll('#curr').attr('id', '')
-
-        if (filter.length > 3) {
-            // remove old content
-            d3.select('#albumlist').selectAll('.listdiv').remove();
-
-            // get all matched data
-            currData = musicdata.filter(d => d.artist.toUpperCase().includes(filter) || d.album.toUpperCase().includes(filter));
-
-            if (currData.length == 0) // no matched data
-                d3.select('#error_info').text('No result.')
-            else {
-                appendList();
-            }
+        if (currData.length == 0) // no matched data
+            d3.select('#error_info').text('No result.')
+        else {
+            appendList();
         }
     }
+    searchLen = filter.length;
+}

@@ -18,6 +18,7 @@
     height: auto;
     display: inline-block;
     font-style: italic;
+    cursor: pointer;
 }
 
 .artist {
