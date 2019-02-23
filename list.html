@@ -7,12 +7,18 @@
 
 	<link rel="stylesheet" href="css/select.css">
 	<link rel="stylesheet" type="text/css" media="screen" href="css/list.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
 	<div class="topnav text">
 		<div class="topnav-right">
-			<!-- <a href="index.html">Home</a> -->
+			<div class="search bar8 text">
+				<form>
+					<input type="text" placeholder="Search" id="searchContent" onkeyup="searchList()" onkeydown="if (event.keyCode == 13) return false;">
+					<button type="button"><i class="fa fa-search"></i></button>
+				</form>
+			</div>
 			<a href="index.html">Home</a>
 			<a class="active" href="list.html">List</a>
 			<a href="review.html">Reviews</a>
