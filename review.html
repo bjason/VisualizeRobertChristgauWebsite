@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>List of albums</title>
+	<title>Visualization for Robert Christgau</title>
 
 	<link rel="stylesheet" href="css/select.css">
 	<link rel="stylesheet" type="text/css" media="screen" href="css/list.css">
@@ -82,7 +82,7 @@
 
 		var scrollFunc = function (e) {
 			e = e || window.event;
-			var y = document.documentElement.scrollTop;
+			var y = document.body.scrollTop || document.documentElement.scrollTop;
 			var i = document.getElementById("cloud_caption").offsetTop;
 			var t = document.getElementById("sentimentheader").offsetTop;
 			var a = document.getElementById("bargraph").offsetTop;
@@ -97,9 +97,7 @@
 						});
 						if (firsttime == 1) {
 							firsttime = 0;
-							setTimeout(() => {
-								legendClick('artist');
-							}, 500);
+							legendClick('artist');
 							setTimeout(() => {
 								legendClick('artist');
 							}, 1500);
@@ -131,6 +129,20 @@
 						document.getElementById('bargraph').scrollIntoView({
 							behavior: 'smooth'
 						});
+				}
+			} else {
+				if (e.wheelDelta < 0) {
+					if (i - y > 0 && i - y < threshold) {
+						if (firsttime == 1) {
+							setTimeout(() => {
+								legendClick('artist');
+							}, 500);
+							setTimeout(() => {
+								legendClick('artist');
+							}, 1500);
+							firsttimegrade = 0;
+						}
+					}
 				}
 			}
 		}

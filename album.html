@@ -33,7 +33,7 @@
                     .style('float', 'left')
                     .attr('alt', 'cover image')
                 d3.select("#title").text(album)
-                d3.select("#artist").text(artist)
+                d3.select("#artist").text(artist).style('font-style', 'italic');
                 if (res === undefined || res['url'].length == 0)
                     d3.select("#link").text('N/A')
                 else d3.select("#link").text(res['url']).attr('href', res['url'])

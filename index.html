@@ -145,7 +145,7 @@
 
         var scrollFunc = function (e) {
             e = e || window.event;
-            var y = document.documentElement.scrollTop;
+            var y = document.body.scrollTop || document.documentElement.scrollTop;
             var p = document.getElementById("pieheader").offsetTop;
             var i = document.getElementById("intro").offsetTop;
             var t = document.getElementById("timegraph").offsetTop;
@@ -222,20 +222,20 @@
                 }
             } else { // not Firefox
                 if (e.wheelDelta < 0) {
-                    if (p -y > 0 && p-y < threshold) {
+                    if (p - y > 0 && p - y < threshold - 200) {
                         if (firsttimegrade == 1) {
                             readData(main);
                             firsttimegrade = 0;
                         }
                     }
-                    if (t-y > 0 && t-y < threshold) {
+                    if (t - y > 0 && t - y < threshold - 200) {
                         if (firsttimeyear == 1) {
                             createGrid(year_rank, 0);
                             createGrid(year_rank_st, 1);
                             firsttimeyear = 0;
                         }
                     }
-                    if (a-y > 0 && a-y < threshold - 150) {
+                    if (a - y > 0 && a - y < threshold - 300) {
                         if (firsttimea == 1) {
                             // create
                             createBubble(rank_artist);
