@@ -81,13 +81,14 @@
                 The reviews are divided into two categories: albums and soundtrack.
                 <br />
                 <br />
-				In this review page, I visualized some
-				interesting fact about the content of the reviews. In the first visualization, some Robert's most used
-				words are drawn, most of them are mentioning artist, important album or genre. Second visualization shows
-				sentiment expressed in Robert's reviews. The sentiments are described in two dimensions:
-				<span style="color: pink;font-weight: bold;">polarity</span>
-				and <span style="color:rgb(73, 124, 149);font-weight: bold;">subjectivity</span>.
-				The last one shows most frequent words in certain rank.
+                In this review page, I visualized some
+                interesting fact about the content of the reviews. In the first visualization, some Robert's most used
+                words are drawn, most of them are mentioning artist, important album or genre. Second visualization
+                shows
+                sentiment expressed in Robert's reviews. The sentiments are described in two dimensions:
+                <span style="color: pink;font-weight: bold;">polarity</span>
+                and <span style="color:rgb(73, 124, 149);font-weight: bold;">subjectivity</span>.
+                The last one shows most frequent words in certain rank.
             </p>
         </section>
     </div>
@@ -221,70 +222,26 @@
                 }
             } else { // not Firefox
                 if (e.wheelDelta < 0) {
-                    if (i - y > 0 && i - y < threshold) {
-                        document.getElementById('intro').scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-
-                    if (p - y > 0 && p - y < threshold) {
-                        document.getElementById('pieheader').scrollIntoView({
-                            behavior: 'smooth'
-                        });
+                    if (p -y > 0 && p-y < threshold) {
                         if (firsttimegrade == 1) {
                             readData(main);
                             firsttimegrade = 0;
                         }
                     }
-
-                    if (t - y > 0 && t - y < threshold) {
-                        document.getElementById('timegraph').scrollIntoView({
-                            behavior: 'smooth'
-                        });
+                    if (t-y > 0 && t-y < threshold) {
                         if (firsttimeyear == 1) {
                             createGrid(year_rank, 0);
                             createGrid(year_rank_st, 1);
                             firsttimeyear = 0;
                         }
                     }
-                    if (a - y > 0 && a - y < threshold - 150) {
-                        document.getElementById('artisttitle').scrollIntoView({
-                            behavior: 'smooth'
-                        });
+                    if (a-y > 0 && a-y < threshold - 150) {
                         if (firsttimea == 1) {
                             // create
                             createBubble(rank_artist);
                             firsttimea = 0;
                         }
                     }
-                }
-                if (e.wheelDelta > 0) {
-                    if (y < threshold) {
-                        document.getElementById('cover').scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                    if (y - i > 0 && y - i < threshold) {
-                        document.getElementById('intro').scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-
-                    if (y - p > 0 && y - p < threshold) {
-                        document.getElementById('pieheader').scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-
-                    if (y - t > 0 && y - t < threshold + 100) {
-                        document.getElementById('timegraph').scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                    if (y - a > 0 && y - a < threshold)
-                        document.getElementById('artisttitle').scrollIntoView({
-                            behavior: 'smooth'
-                        });
                 }
             }
         }
