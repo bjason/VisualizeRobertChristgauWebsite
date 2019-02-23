@@ -49,9 +49,3 @@ li:hover {
     background: #eee;
     cursor: pointer;
 }
-
-div .title {
-    display: inline-block;
-    width: 60;
-    font-style: italic;
-}

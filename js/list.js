@@ -36,7 +36,7 @@ function readMusicData(data, error) {
         var subj = parseFloat(d.subjectivity);
 
         musicdata.push({
-            isSoundTrack: d.isSoundTrack,
+            // isSoundTrack: d.isSoundTrack,
             id: id,
             rank: rank,
             album: album,
@@ -71,13 +71,6 @@ function main() { // loader settings
 
 main();
 
-function getSrc(d) {
-    if (d.isSoundTrack == 'FALSE')
-        return 'css/album.jpg';
-    else
-        return 'css/soundtrack.jpg';
-}
-
 function loadList(data, list) {
     var listdiv = list.selectAll('.listitem')
         .data(data)
@@ -87,11 +80,8 @@ function loadList(data, list) {
         .style('overflow', 'auto')
         .style('margin', '5%')
         .style('margin-left', '0%')
-        .style('cursor', 'pointer')
         .on('click', function (d) {
-            var coverUrl = encodeURI(d3.select('#img' + d.id).attr('src'));
-            var url = "album.html?artist=" + d.artist.replace(/&/g, 'AndSign') + "&album=" + d.album.replace(/&/g, 'AndSign') + "&rank=" + d.rank + "&cover=" + coverUrl;
-            window.location.replace(url, '_self')
+            window.location.replace("album.html?artist=" + d.artist + "&album=" + d.album + "&rank=" + d.rank, '_self')
         })
     var g = listdiv.append('svg')
         .attr('height', 120)
@@ -113,7 +103,7 @@ function loadList(data, list) {
 
     var imgd = []
     listdiv.append('img')
-        .attr('src', d => getSrc(d))
+        .attr('src', 'css/album.jpg')
         .attr('height', 120)
         .attr('width', 120)
         .style('margin-left', '3%')
@@ -130,10 +120,7 @@ function loadList(data, list) {
         .attr('class', 'text')
         .style('display', 'inline-block')
     ld.append('h3')
-        .text(d => {
-            if (d.isSoundTrack == 'TRUE') return d.album + ' (' + d.year + ')' + ' [Soundtrack]';
-            else return d.album + ' (' + d.year + ')';
-        })
+        .text(d => d.album + ' (' + d.year + ')')
     ld.append('p')
         .append('i')
         .text(d => d.artist)
@@ -196,14 +183,13 @@ function loadList(data, list) {
                 format: 'json'
             },
             function (data) {
+                console.log(data);
                 if (!("error" in data)) {
                     res = data["album"]["image"][2]["#text"];
-                    if (res.length != 0) {
+                    if (res.length != 0)
                         d3.select('#img' + id).attr('src', res)
-                        return;
-                    }
-                }
-                d3.select('#img' + id).attr('src', getSrc(d))
+                    else d3.select('#img' + id).attr('src', 'css/album.jpg')
+                } else d3.select('#img' + id).attr('src', 'css/album.jpg')
             }
         )
     })
