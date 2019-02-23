@@ -91,12 +91,6 @@ function loadList(data) {
         .style('overflow', 'auto')
         .style('margin', '5%')
         .style('margin-left', '0%')
-        .style('cursor', 'pointer')
-        .on('click', function (d) {
-            var coverUrl = encodeURI(d3.select('#img' + d.id).attr('src'));
-            var url = "album.html?artist=" + d.artist.replace(/&/g, 'AndSign') + "&album=" + d.album.replace(/&/g, 'AndSign') + "&rank=" + d.rank + "&cover=" + coverUrl;
-            window.location.href = url;
-        })
     var g = listdiv.append('svg')
         .attr('height', 120)
         .attr('width', 60)
@@ -133,6 +127,12 @@ function loadList(data) {
         // .style('margin-left', '5%')
         .attr('class', 'text')
         .style('display', 'inline-block')
+        .style('cursor', 'pointer')
+        .on('click', function (d) {
+            var coverUrl = encodeURI(d3.select('#img' + d.id).attr('src'));
+            var url = "album.html?artist=" + d.artist.replace(/&/g, 'AndSign') + "&album=" + d.album.replace(/&/g, 'AndSign') + "&rank=" + d.rank + "&cover=" + coverUrl;
+            window.location.href = url;
+        })
     ld.append('h3')
         .text(d => {
             if (d.isSoundTrack == 'TRUE') return d.album + ' (' + d.year + ')' + ' [Soundtrack]';
@@ -174,6 +174,9 @@ function loadList(data) {
         .text((d) => {
             return "Polarity: " + d.pol;
         })
+        // .attr('r', 0)
+        // .transition()
+        // .duration(500)
     g.append('circle')
         .attr('cx', 90)
         .attr('cy', 30)

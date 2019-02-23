@@ -70,7 +70,7 @@
                 Record Guide: The '80s (1990), along with two collections of essays.
                 <br />
                 <br />
-                In this visualization, I visualized over Robert's over 20,000 graded reviews and presented
+                In this visualization, I visualized over Robert's over 16,000 graded reviews and presented
                 the distribution of the album reviews to the years and to the grade letter.
                 In the reviews, he graded an album among A+, A, A-, B+, ***, **,
                 *, S, N, B, B-, C+, C, C-, D+, D, D-, E+, E, E-, X. A+ is the highest grade meaning
@@ -78,17 +78,19 @@
                 invited and repaid repeated listenings in the daily life of someone with 500 other CDs to get to"
                 and E- is, of course, the opposite. The specific grading critiria can be found
                 <a href="https://www.robertchristgau.com/xg/bk-cg90/grades-90s.php">here</a>.
-                The reviews are divided into two categories: albums and soundtrack.
+                The reviews are divided into two categories: albums and soundtracks.
                 <br />
                 <br />
                 In this review page, I visualized some
-                interesting fact about the content of the reviews. In the first visualization, some Robert's most used
-                words are drawn, most of them are mentioning artist, important album or genre. Second visualization
-                shows
-                sentiment expressed in Robert's reviews. The sentiments are described in two dimensions:
+                interesting fact about the content of the reviews. For example, some Robert's most used
+                words, most of which are mentioned artist, important albums or genres. Second visualization
+                shows involves sentiment analysis of Robert's reviews. The sentiments are described in two dimensions:
                 <span style="color: pink;font-weight: bold;">polarity</span>
                 and <span style="color:rgb(73, 124, 149);font-weight: bold;">subjectivity</span>.
-                The last one shows most frequent words in certain rank.
+                The polarity score is a float within the range [-1.0, 1.0].
+                The subjectivity is a float within the range [0.0, 1.0] where 0.0 is very objective and 1.0 is very
+                subjective.
+                This is made possible by Python library <a href="https://textblob.readthedocs.io/en/dev/index.html">Textblob</a>.
             </p>
         </section>
     </div>

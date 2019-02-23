@@ -17,8 +17,12 @@
     margin-right: 1em;
     height: auto;
     display: inline-block;
-    font-style: italic;
     cursor: pointer;
+}
+
+.prop-name {
+    font-style: italic;
+    color: #585858;
 }
 
 .artist {

@@ -20,6 +20,8 @@
             var album = decodeURI(arg[1].split("=")[1]).replace('AndSign', "&");
             var rank = arg[2].split("=")[1];
             var coverUrl = arg[3].split("=")[1];
+
+            document.title = "RC review: " + album + " - " + artist + "";
             d3.csv("data/" + rank + ".csv").then((data, error) => {
                 if (error) console.log(error);
                 var res = data.filter(d => d.artist == artist).filter(d => d.album == album)[0];
@@ -28,7 +30,7 @@
                     .attr('src', coverUrl)
                     .attr('height', 200)
                     .attr('width', 200)
-                    .style('margin-left', '3%')
+                    .style('margin-left', '5%')
                     .style('margin-right', '3%')
                     .style('float', 'left')
                     .attr('alt', 'cover image')
