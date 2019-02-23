@@ -226,8 +226,6 @@ function appendList() {
     function loadList(data) {
         var list = d3.select('#albumlist');
 
-        >>>
-        >>> > npl
         var listdiv = list.selectAll('.listitem')
             .data(data)
             .enter().append('div')
@@ -237,14 +235,11 @@ function appendList() {
             .style('margin', '5%')
             .style('margin-left', '0%')
             .on('click', function (d) {
-                <<
-                << << < HEAD
-                window.location.replace("album.html?artist=" + d.artist + "&album=" + d.album + "&rank=" + d.rank, '_self') ===
-                    === =
-                    var coverUrl = encodeURI(d3.select('#img' + d.id).attr('src'));
+                window.location.replace("album.html?artist=" + d.artist + "&album=" + d.album + "&rank=" + d.rank, '_self')
+
+                var coverUrl = encodeURI(d3.select('#img' + d.id).attr('src'));
                 var url = "album.html?artist=" + d.artist.replace(/&/g, 'AndSign') + "&album=" + d.album.replace(/&/g, 'AndSign') + "&rank=" + d.rank + "&cover=" + coverUrl;
-                window.location.href = url; >>>
-                >>> > npl
+                window.location.href = url;
             })
         var g = listdiv.append('svg')
             .attr('height', 120)
