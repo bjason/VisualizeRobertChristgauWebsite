@@ -89,8 +89,9 @@ function loadList(data, list) {
         .style('margin-left', '0%')
         .style('cursor', 'pointer')
         .on('click', function (d) {
-            var url = d3.select('#img' + d.id).attr('src')
-            window.location.replace("album.html?artist=" + d.artist + "&album=" + d.album + "&rank=" + d.rank + "&cover=" + url, '_self')
+            var coverUrl = encodeURI(d3.select('#img' + d.id).attr('src'));
+            var url = "album.html?artist=" + d.artist.replace(/&/g, 'AndSign') + "&album=" + d.album.replace(/&/g, 'AndSign') + "&rank=" + d.rank + "&cover=" + coverUrl;
+            window.location.replace(url, '_self')
         })
     var g = listdiv.append('svg')
         .attr('height', 120)

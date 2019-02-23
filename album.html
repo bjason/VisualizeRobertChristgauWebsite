@@ -17,8 +17,8 @@
 
         if (argUrl.length > 1) {
             var arg = argUrl[1].split("&");
-            var artist = arg[0].split("=")[1].replace(/%20/g, ' ');
-            var album = arg[1].split("=")[1].replace(/%20/g, ' ');
+            var artist = decodeURI(arg[0].split("=")[1]).replace('AndSign', "&");
+            var album = decodeURI(arg[1].split("=")[1]).replace('AndSign', "&");
             var rank = arg[2].split("=")[1];
             var coverUrl = arg[3].split("=")[1];
 
@@ -38,10 +38,10 @@
                     .attr('alt', 'cover image')
                 d3.select("#title").text(album)
                 d3.select("#artist").text(artist)
-                if (res['url'].length == 0)
+                if (res === undefined || res['url'].length == 0)
                     d3.select("#link").text('N/A')
                 else d3.select("#link").text(res['url']).attr('href', res['url'])
-                if (res['comment'].length == 0)
+                if (res === undefined || res['comment'].length == 0)
                     d3.select("#comment").text('N/A')
                 else d3.select("#comment").text(res['comment'])
             });
