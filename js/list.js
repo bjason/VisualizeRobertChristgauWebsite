@@ -17,7 +17,7 @@ var years = ['1967', '1968', '1969', '1970',
 
 var spinner;
 var currIndex;
-var mostLoadNum = 30;
+var mostLoadNum = 5;
 
 var currRank;
 var currYear;
