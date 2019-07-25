@@ -7,11 +7,11 @@ var rankColor = ['green', 'green', 'green', 'green', 'blue', 'blue', 'blue', 'bl
     'blue', 'blue', 'blue', 'blue',
     'orange', 'orange', 'orange', 'orange', 'orange', 'red', 'red', 'red', 'red'
 ];
-var years = ['1967', '1968', '1969', '1970',
-    '1971', '1972', '1973', '1974', '1975', '1976', '1977', '1978', '1979', '1980', '1981',
-    '1982', '1983', '1984', '1985', '1986', '1987', '1988', '1989', '1990', '1991', '1992',
-    '1993', '1994', '1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003',
-    '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014',
+var years = ['1960s','1967', '1968', '1969', '1970s','1970',
+    '1971', '1972', '1973', '1974', '1975', '1976', '1977', '1978', '1979', '1980s','1980', '1981',
+    '1982', '1983', '1984', '1985', '1986', '1987', '1988', '1989', '1990s','1990', '1991', '1992',
+    '1993', '1994', '1995', '1996', '1997', '1998', '1999', '2000s','2000', '2001', '2002', '2003',
+    '2004', '2005', '2006', '2007', '2008', '2009', '2010s', '2010', '2011', '2012', '2013', '2014',
     '2015', '2016', '2017', '2018'
 ];
 
@@ -174,9 +174,9 @@ function loadList(data) {
         .text((d) => {
             return "Polarity: " + d.pol;
         })
-        // .attr('r', 0)
-        // .transition()
-        // .duration(500)
+    // .attr('r', 0)
+    // .transition()
+    // .duration(500)
     g.append('circle')
         .attr('cx', 90)
         .attr('cy', 30)
@@ -285,6 +285,7 @@ function filterData(rank, year) {
             // window.location.href("list.html?rank=" + r + "&year=" + d, '_self')
             self.location.href = "list.html?rank=" + r + "&year=" + d;
         })
+        // .append('p')
         .append('a')
         .text(d => d)
         .filter(d => d == year)
@@ -304,7 +305,21 @@ function filterData(rank, year) {
     d3.select('#albumlist').selectAll('.listdiv').remove();
 
     // get current selected data
-    currData = musicdata.filter(d => rank.includes(d.rank)).filter(d => year.includes(d.year));
+    currData = [];
+    if (year[0].includes("s")) {
+
+        years.forEach((yr) => {
+            let prefix = year[0].substring(0, 3);
+
+            if (yr.startsWith(prefix)) {
+                currData = currData.concat(musicdata.filter(d => rank.includes(d.rank)).filter(d => yr.includes(d.year)));
+            }
+        })
+    } else {
+        currData = musicdata.filter(d => rank.includes(d.rank)).filter(d => year.includes(d.year));
+    }
+
+    // error info
     if (currData.length == 0) {
         d3.select('#error_info').text('Oops! No album released in ' + year + ' ranked as ' + rank)
     } else {
