@@ -46,7 +46,7 @@
             </p>
             <p style="font-size:300%;" class="firstPageText">
                 <br />Visualization for Robert Christgau <br />Music Critics</p>
-            <h3 class="firstPageText" style="padding-bottom:10%;">Yuchu LEI / Data are scratched by Python from
+            <h3 class="firstPageText" style="padding-bottom:10%;">Data crawled from
                 <a href="https://www.robertchristgau.com/">Robert Christgau blog</a>
             </h3>
         </div>
@@ -72,8 +72,8 @@
                 <br />
                 In this visualization, I visualized over Robert's over 16,000 graded reviews and presented
                 the distribution of the album reviews to the years and to the grade letter.
-                In the reviews, he graded an album among A+, A, A-, B+, ***, **,
-                *, S, N, B, B-, C+, C, C-, D+, D, D-, E+, E, E-, X. A+ is the highest grade meaning
+                In the reviews, he graded an album among <b>A+, A, A-, B+, ***, **,
+                *, S, N, B, B-, C+, C, C-, D+, D, D-, E+, E, E-, X </b>. A+is the highest grade meaning
                 "this is a record of sustained beauty, power, insight, groove, and/or googlefritz that has
                 invited and repaid repeated listenings in the daily life of someone with 500 other CDs to get to"
                 and E- is, of course, the opposite. The specific grading critiria can be found
@@ -155,8 +155,8 @@
 
             var threshold = 700;
 
-            if (!e.wheelDelta) {
-                if (e.detail > 0) { //Firefox
+            if (!e.wheelDelta) {//Firefox
+                if (e.detail > 0) { 
                     if (i - y > 0 && i - y < threshold) {
                         document.getElementById('intro').scrollIntoView({
                             behavior: 'smooth'
